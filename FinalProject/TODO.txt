@@ -1,0 +1,103 @@
+﻿Limitations: 
+● [TODO] Only one Tile Object may occupy one Tile
+● [TODO] Tilemaps can be static. I.e., you can decide tiles cannot change place during runtime
+	to simplify the engine (e.g. tiles cannot switch positions, move, etc.)
+● [TODO] The engine needs to support the building of checkers and chess
+● [TODO] Tiles cannot occupy the game simulation without a Tilemap that references them
+● [TODO] Tileobjects cannot occupy the game simulation without a Tile that references them
+● [TODO] The engine only supports turn-based sequencing
+
+
+
+The Engine:
+Features
+● [TODO] Loads new tilemaps into memory
+● [TODO] Injects tile objects into tiles at the beginning of the game. This is what is generally
+	referred to as Set - the location of tile objects at the beginning of a game.
+● [TODO] Sets the number of actors (players, AI) in the game
+● [TODO] May accept different renderers. Renders the Tilemap according to the Rendering
+	rules.
+● [TODO] Handles Turns of the different actors
+	Restrictions \ Requirements
+● [TODO] May not contain a direct reference to a Renderer implementation, only to an
+	interface, or abstract class.
+● [TODO] Will have an abstract base class - this is to enable consumer code to implement their
+own engine
+
+
+
+Core Engine Hierarchy:
+Features
+● [TODO] All tiles and tile objects need to belong to a specific actor. This enables basic
+gameplay for capturing\removing other tile objects and “capturing” the tiles
+themselves
+● [TODO] Tileobject needs to trigger callbacks on tiles it “steps” on and tile objects it passes
+● [TODO] Tileobjects need to provide an interface for moving
+● [TODO] Tileobjects need to implement ICloneable with a deep copy
+● [TODO] Tilemap needs to provide an implementation for an int indexer
+● [TODO] Tilemap needs to implement the interfaces for IEnumerable and IEnumerator. When
+	you build the Tilemap, think about it as a data structure, what sort of traversal this
+	data structure can have?
+● [TODO] Build an enumerator that accepts a starting position on a tilemap, and performs the
+	enumeration from that point outwards, in a spiral
+● [TODO] Masochist 🏆: create tilemaps with “holes”
+Restrictions \ Requirements
+● [TODO] All three classes need to depend on abstraction (interfaces, abstract classes), not
+implementations.
+
+
+
+Positioning:
+Features
+● [TODO] An interface for 2D positions
+● [TODO] An implementation readonly struct for 2D positions
+	○ Must override ToString(), GetHashCode(), and Equals()
+	○ Must override operators for addition and subtraction
+● [TODO] The Tilemap must implement an indexer for IPosition
+
+
+
+Movement & Interaction:
+Features
+● [TODO] The client code can use the interface to create unique movement rules (again, at
+	least needs to comply with chess and checkers)
+● [TODO] The client code is able to determine blocking objects
+● [TODO] The client is able to handle colliding with the environment (the edges of a tilemap \
+	holes if there are any)
+● [TODO] The client code needs to determine routes and landing positions
+● [TODO] Masochist 🏆: make tiles affect movement (e.g. a mountain tile blocks the movement
+	route)
+
+
+
+Restrictions
+● [TODO] You must use iterators in your movement feature
+
+Rendering:
+Features
+● [TODO] Tiles may have a different look from one another
+● [TODO] The basic tile renderer should simply accept one character for
+	the left, one character for the center, and one character for the
+	right. It will look something like this (with tile objects) ⇒
+● [TODO] Tile objects also need to be rendered. For the basic renderer,
+	one character with color will suffice
+● [TODO] Allow client code to set the background and foreground of tiles
+	and tile objects.
+● [TODO] Rendering also works in unison with commands
+● [TODO] Masochist🏆: allow the client to create bigger tiles and have a ruleset for how tiles
+	look depending on the tiles next to them
+
+
+
+Commands:
+Features
+● [TODO] The system must allow commands to interact with the movement system
+● [TODO] The system must allow at least the following commands
+	○ Select tile object at position (x,y). After a tile object is selected show the
+		available movement final positions for that object with the renderer
+	○ Deselect: deselects the current tile object
+	○ Move: moves the selected tile object to position (x,y)
+● [TODO] Masochist 🏆: show the movement route of a tile object and add a command -
+	Show: Highlight pieces that can perform any movement
+Restrictions
+● [TODO] This system does not throw exceptions
