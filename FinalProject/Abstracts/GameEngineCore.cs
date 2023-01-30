@@ -10,6 +10,7 @@ namespace FinalProject.Abstracts
     public abstract class GameEngineCore
     {
         public TileMap TileMap {get; set;}
+        public List<Actor> Actors {get; set;}
         public Renderer Renderer {get; set;}
         public Dictionary<string, string> Options = new Dictionary<string, string>();
         public Dictionary<string, string> PropertyOptions = new Dictionary<string, string>();

@@ -7,7 +7,7 @@ internal class Program
         GameEngine engine = new GameEngine();
         void Start()
         {
-            
+            engine.CreateBoard(8, 8);
         }
         // Start a new Game Engine
         var renderer = new Renderer();

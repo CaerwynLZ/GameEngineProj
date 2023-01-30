@@ -9,9 +9,10 @@ namespace FinalProject
 {
     public class GameEngine : GameEngineCore
     {
+        Renderer r;
         public GameEngine()/*int tileWidth, int tileHeight)*/
         {
-
+            r = new Renderer();
         }    
         public void CreateBoard(int tileWidth,int tileHeight)
         {
