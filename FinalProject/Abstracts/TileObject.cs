@@ -12,21 +12,18 @@ namespace FinalProject
     public abstract class TileObject : IMove, ICloneable<TileObject>
     {
         public Position Position { get; set; }
-        public Player Owner { get; set; }
+        public Actor Owner { get; set; }
         public string Name { get; set; }
         public object Icon { get; set; }
+        public virtual object Color { get; set; }
         public Tile Tile { get; set; }
-        public List<MoveSet> MoveSets { get; set; }
+        public List<Position> MoveSets { get; set; }
 
-        public TileObject()
-        {
-
-        }
-        
         // -1: infinite 
-        public void AddMoveSet(MoveSet moveSet)
+        public void AddMoveSet(Position moveSet)
         {
-            MoveSets.Add(moveSet);
+            var p= moveSet + this.Position;
+            MoveSets.Add(p);
         }
 
         public delegate void Move(int x, int y);

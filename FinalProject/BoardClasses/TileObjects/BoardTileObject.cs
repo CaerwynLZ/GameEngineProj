@@ -8,12 +8,13 @@ namespace FinalProject
 {
     public class BoardTileObject : TileObject
     {
-        public BoardTileObject(Player owner, string name, object icon, int x, int y)
+        public BoardTileObject(Actor owner, string name, object icon, int x, int y)
         {
             this.Position = new Position(x, y);
             this.Owner = owner;
             this.Icon = icon;
             this.Name = name;
+            this.Color = owner.Color;
         }
     }
 }

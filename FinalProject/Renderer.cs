@@ -105,17 +105,17 @@ namespace FinalProject
                                         var parameters = input.Split(",");
 
                                         var tileObject = gameEngine.TileMap.SelectedTile.TileObject;
-                                        tileObject.AddMoveSet(new MoveSet()
-                                        {
-                                            Left = parameters[0].Last() == 'x' ? -1 : parameters[0].Last(),
-                                            Right = parameters[1].Last() == 'x' ? -1 : parameters[1].Last(),
-                                            Up = parameters[2].Last() == 'x' ? -1 : parameters[2].Last(),
-                                            Down = parameters[3].Last() == 'x' ? -1 : parameters[3].Last(),
-                                            UpLeft = parameters[4].Last() == 'x' ? -1 : parameters[4].Last(),
-                                            UpRight = parameters[5].Last() == 'x' ? -1 : parameters[5].Last(),
-                                            DownLeft = parameters[6].Last() == 'x' ? -1 : parameters[6].Last(),
-                                            DownRight = parameters[7].Last() == 'x' ? -1 : parameters[7].Last(),
-                                        });
+                                        //tileObject.AddMoveSet(new MoveSet()
+                                        //{
+                                        //    Left = parameters[0].Last() == 'x' ? -1 : parameters[0].Last(),
+                                        //    Right = parameters[1].Last() == 'x' ? -1 : parameters[1].Last(),
+                                        //    Up = parameters[2].Last() == 'x' ? -1 : parameters[2].Last(),
+                                        //    Down = parameters[3].Last() == 'x' ? -1 : parameters[3].Last(),
+                                        //    UpLeft = parameters[4].Last() == 'x' ? -1 : parameters[4].Last(),
+                                        //    UpRight = parameters[5].Last() == 'x' ? -1 : parameters[5].Last(),
+                                        //    DownLeft = parameters[6].Last() == 'x' ? -1 : parameters[6].Last(),
+                                        //    DownRight = parameters[7].Last() == 'x' ? -1 : parameters[7].Last(),
+                                        //});
 
                                         Console.WriteLine("Do you want to add another move set to the object?");
                                         input = GetConsoleInput<string>();
