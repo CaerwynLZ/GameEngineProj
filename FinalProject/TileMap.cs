@@ -1,4 +1,5 @@
 ﻿using FinalProject.BoardClasses;
+using FinalProject.Engine.Abstracts;
 using FinalProject.Interfaces;
 using System;
 using System.Collections;
@@ -18,7 +19,7 @@ namespace FinalProject
 
         // The Tilemap must implement an indexer for IPosition
         // This will let you access Tiles while tiles can be private by TileMap[new Position(x, y)]
-        public Tile this[IPosition position]
+        public Tile this[Position position]
         {
             get => Tiles[position.X, position.Y];
             set => Tiles[position.X, position.Y] = value;

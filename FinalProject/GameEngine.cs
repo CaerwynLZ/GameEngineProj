@@ -1,4 +1,5 @@
-﻿using FinalProject.Abstracts;
+﻿using FinalProject.Client;
+using FinalProject.Engine.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +10,21 @@ namespace FinalProject
 {
     public class GameEngine : GameEngineCore
     {
-        Renderer r;
+        Renderer renderer;
+        TileObject tileObject;
+        Actor actor1;
+        Actor actor2;
         public GameEngine()/*int tileWidth, int tileHeight)*/
         {
-            r = new Renderer();
+            renderer = new Renderer();
         }    
         public void CreateBoard(int tileWidth,int tileHeight)
         {
             this.TileMap = new TileMap(tileWidth, tileHeight);
         }
-        public void CreateUnit()
+        public void CreateUnit(Actor actor, string name, char icon, Tile tile, List<Position> movement)
         {
-
+            tileObject= new BoardTileObject();
         }
         public void AddPropertyOptions(string optionNumber, string describe)
         {

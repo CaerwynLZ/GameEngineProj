@@ -1,5 +1,4 @@
-﻿using FinalProject.Abstracts;
-using FinalProject.BoardClasses;
+﻿using FinalProject.BoardClasses;
 using FinalProject.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,7 +15,6 @@ namespace FinalProject
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Black;
             Console.Clear();
-
         }
         public void RenderGameEngine(Dictionary<string, string> options)
         {

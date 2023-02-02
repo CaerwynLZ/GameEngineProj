@@ -6,17 +6,17 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinalProject
+namespace FinalProject.Engine.Abstracts
 {
     public abstract class Tile
     {
         public Position Position { get; set; }
-        public abstract object Color { get; set; }
-        public abstract TileObject? TileObject { get; set; }
+        public virtual object Color { get; set; }
+        public virtual TileObject? TileObject { get; set; }
 
         public Tile(int x, int y)
         {
-            this.Position = new Position(x, y);
+            Position = new Position(x, y);
         }
     }
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinalProject
+namespace FinalProject.Engine.Abstracts
 {
     public class Actor
     {
@@ -14,12 +14,12 @@ namespace FinalProject
         public virtual object Color { get; set; }
         public virtual List<TileObject> TileObjects { get; set; }
 
-        public Actor(int iD, string name, ConsoleColor color, List<TileObject> tileObjects)
+        public Actor(int iD, string name, ConsoleColor color)
         {
-            this.ID = iD;
-            this.Name = name;
-            this.Color = color;
-            this.TileObjects = tileObjects;
+            ID = iD;
+            Name = name;
+            Color = color;
+            TileObjects = new List<TileObject>();
         }
     }
 }
