@@ -42,9 +42,10 @@ namespace FinalProject
             }
         }
 
-        public void SelectTile(int x, int y)
+        public Tile SelectTile(int x, int y)
         {
             SelectedTile = Tiles[x - 1, y - 1];
+            return SelectedTile;
         }
 
         public void DeselectTile()

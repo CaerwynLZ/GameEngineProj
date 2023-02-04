@@ -10,21 +10,31 @@ namespace FinalProject
 {
     public class GameEngine : GameEngineCore
     {
-        Renderer renderer;
-        TileObject tileObject;
-        Actor actor1;
-        Actor actor2;
-        public GameEngine()/*int tileWidth, int tileHeight)*/
+        public GameEngine()
         {
-            renderer = new Renderer();
+            this.Renderer = new Renderer();
         }    
         public void CreateBoard(int tileWidth,int tileHeight)
         {
             this.TileMap = new TileMap(tileWidth, tileHeight);
         }
-        public void CreateUnit(Actor actor, string name, char icon, Tile tile, List<Position> movement)
+        public void SetPlayers(Actor player1, Actor player2)
         {
-            tileObject= new BoardTileObject();
+            this.Actor1 = player1;
+            this.Actor2 = player2;
+        }
+        public void SetUnit(TileObject tileObject)
+        {
+            if (tileObject.Owner == this.Actor1)
+            {
+                this.Actor1.TileObjects.Add(tileObject);
+            }
+            else if (tileObject.Owner == this.Actor2)
+                this.Actor2.TileObjects.Add(tileObject);     
+        }
+        public void RenderMap()
+        {
+            this.Renderer.RenderTileMap(this.TileMap);
         }
         public void AddPropertyOptions(string optionNumber, string describe)
         {

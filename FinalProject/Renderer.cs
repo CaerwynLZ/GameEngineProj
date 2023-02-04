@@ -10,6 +10,7 @@ namespace FinalProject
 {
     public class Renderer : IRenderer
     {
+        public ConsoleColor placeholderColor;
         public void RenderMenu()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -41,6 +42,47 @@ namespace FinalProject
             Console.WriteLine($"{count}: Back");
             Console.WriteLine("");
             Console.Write("Enter your selection: ");
+        }
+        public void RenderTileMap(TileMap tileMap)
+        {
+            for (int y = 0; y < tileMap.Height; y++)
+            {
+                for (int x = 0; x < tileMap.Width; x++)
+                {
+                    var tile = tileMap[new Position(x, y)];
+
+                    //Make selected tile red
+                    if (tileMap.SelectedTile == tile)
+                        SetColor(ConsoleColor.Red);
+                    
+
+                    Console.Write("[");
+
+                    //Set Tile Color if it has one
+                    if (tile.Color != null)
+                        Console.BackgroundColor = (ConsoleColor)tile.Color;
+
+                    //Input tile object if tile contains one
+                    if (tile.TileObject != null)
+                    {
+                        if (tile.TileObject != null)
+                            SetColor((ConsoleColor)tile.TileObject.Color);
+                        Console.Write(tile.TileObject.Icon);
+                    }
+                    else
+                    {
+                        Console.Write(" ");
+                    }
+                    SetColor(ConsoleColor.White);
+                    Console.Write("]");
+                }
+                Console.WriteLine();
+            }
+        }
+        public void SetColor(ConsoleColor color)
+        {
+            placeholderColor = color;
+            Console.ForegroundColor = placeholderColor;
         }
         //public void RenderMenu()
         //{
