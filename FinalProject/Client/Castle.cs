@@ -1,23 +1,24 @@
-﻿using FinalProject.Engine.Abstracts;
+﻿using FinalProject.Engine;
+using FinalProject.Engine.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinalProject
+namespace FinalProject.Client
 {
-    internal class Castle: TileObject
+    internal class Castle : TileObject
     {
         public Castle(Actor owner, Tile currentPos)
         {
-            this.Owner = owner;
-            this.Color = owner.Color;
-            this.Tile = currentPos;
-            this.Position = Tile.Position;
-            this.MoveSets = new List<Position>();
-            this.Name = "Castel";
-            this.Icon = "C";
+            Owner = owner;
+            Color = owner.Color;
+            Tile = currentPos;
+            Position = Tile.Position;
+            MoveSets = new List<Position>();
+            Name = "Castel";
+            Icon = "C";
 
             AddMoveSet(new Position(10, 0));
             AddMoveSet(new Position(0, 10));
@@ -28,33 +29,33 @@ namespace FinalProject
         }
         public override void AddMoveSet(Position moveSet)
         {
-            if(moveSet.X>=1)
+            if (moveSet.X >= 1)
             {
-                for(int i = 1; i <= moveSet.X; i++)
+                for (int i = 1; i <= moveSet.X; i++)
                 {
-                    this.MoveSets.Add(new Position(i, 0));
+                    MoveSets.Add(new Position(i, 0));
                 }
             }
-            else if(moveSet.X <= -1)
+            else if (moveSet.X <= -1)
             {
                 for (int i = -1; i >= moveSet.X; i--)
-                {      
-                    this.MoveSets.Add(new Position(i, 0));
+                {
+                    MoveSets.Add(new Position(i, 0));
                 }
             }
-            if(moveSet.Y>=1)
+            if (moveSet.Y >= 1)
             {
                 for (int i = 0; i <= moveSet.Y; i++)
                 {
-                    
-                    this.MoveSets.Add(new Position(0,i));
+
+                    MoveSets.Add(new Position(0, i));
                 }
             }
             else if (moveSet.Y <= -1)
             {
                 for (int i = -1; i >= moveSet.Y; i--)
                 {
-                    this.MoveSets.Add(new Position(0, i));
+                    MoveSets.Add(new Position(0, i));
                 }
             }
 

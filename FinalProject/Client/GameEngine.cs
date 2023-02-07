@@ -1,4 +1,4 @@
-﻿using FinalProject.Client;
+﻿using FinalProject.Engine;
 using FinalProject.Engine.Abstracts;
 using FinalProject.Interfaces;
 using System;
@@ -7,70 +7,75 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinalProject
+namespace FinalProject.Client
 {
     public class GameEngine : GameEngineCore
     {
         Tile tile;
         public GameEngine()
         {
-            this.Renderer = new Renderer();
-        }    
-        public void CreateBoard(int tileWidth,int tileHeight)
+            Renderer = new Renderer();
+        }
+        public void CreateBoard(int tileWidth, int tileHeight)
         {
-            this.TileMap = new TileMap(tileWidth, tileHeight);
+            TileMap = new TileMap(tileWidth, tileHeight);
         }
         public void SetPlayers(Actor player1, Actor player2)
         {
-            this.Actor1 = player1;
-            this.Actor2 = player2;
+            Actor1 = player1;
+            Actor2 = player2;
         }
         public void SetUnit(TileObject tileObject)
         {
-            if (tileObject.Owner == this.Actor1)
+            if (tileObject.Owner == Actor1)
             {
-                this.Actor1.TileObjects.Add(tileObject);
+                Actor1.TileObjects.Add(tileObject);
             }
-            else if (tileObject.Owner == this.Actor2)
-                this.Actor2.TileObjects.Add(tileObject);     
+            else if (tileObject.Owner == Actor2)
+                Actor2.TileObjects.Add(tileObject);
         }
         public void RenderMap()
         {
-            this.Renderer.RenderTileMap(this.TileMap);
+            Renderer.RenderTileMap(TileMap);
         }
         public void AddPropertyOptions(string optionNumber, string describe)
         {
-            this.PropertyOptions.Add(optionNumber, describe);
+            PropertyOptions.Add(optionNumber, describe);
         }
         public void ChooseTile(int x, int y)
         {
-            this.TileMap.NextMoves.Clear();
-            tile = this.TileMap.SelectTile(x, y);
-            MoveableOptions(tile.TileObject);
+            TileMap.NextMoves.Clear();
+            tile = TileMap.SelectTile(x, y);
+            if (tile.TileObject != null)
+            {
+                MoveableOptions(tile.TileObject);
+            }
+            else
+            {
 
+            }
         }
         private void MoveableOptions(TileObject tileObject)
         {
-            for(int i=0; i<tileObject.MoveSets.Count; i++)
+            for (int i = 0; i < tileObject.MoveSets.Count; i++)
             {
-                Position pos= tileObject.MoveSets[i]+tileObject.Position;
-                if((pos.X>=0 && pos.X<this.TileMap.Width) && (pos.Y >=0 && pos.Y < this.TileMap.Height))
+                Position pos = tileObject.MoveSets[i] + tileObject.Position;
+                if (pos.X >= 0 && pos.X < TileMap.Width && pos.Y >= 0 && pos.Y < TileMap.Height)
                 {
-                    this.TileMap.NextMoves.Add(this.TileMap[pos]);
+                    TileMap.NextMoves.Add(TileMap[pos]);
                 }
             }
         }
         public void MoveTo(int x, int y)
         {
-            var givenPos = new Position(x-1, y-1);
-            tile.TileObject.SetTile(this.TileMap[givenPos]);
-            this.TileMap.SelectedTile = null;
-            this.TileMap.NextMoves.Clear();
+            var givenPos = new Position(x - 1, y - 1);
+            tile.TileObject.SetTile(TileMap[givenPos]);
+            TileMap.SelectedTile = null;
+            TileMap.NextMoves.Clear();
         }
-
         public void AddMenuOptions(string optionNumber, string describe)
         {
-            this.Options.Add(optionNumber, describe);
+            Options.Add(optionNumber, describe);
         }
 
         public dynamic GetConsoleInput<T>(string command)
@@ -88,8 +93,6 @@ namespace FinalProject
             {
                 return false;
             }
-
-
         }
 
 

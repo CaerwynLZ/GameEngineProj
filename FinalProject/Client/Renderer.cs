@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinalProject
+namespace FinalProject.Client
 {
     public class Renderer : IRenderer
     {
@@ -64,7 +64,7 @@ namespace FinalProject
                     Console.Write(tile.IconsSides[0]);
 
                     //Set Tile Color if it has one
-                    if (tile.Color != null) 
+                    if (tile.Color != null)
                         Console.BackgroundColor = (ConsoleColor)tile.Color;
 
                     PrintIcons();
@@ -76,7 +76,7 @@ namespace FinalProject
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 Console.WriteLine();
-                
+
             }
         }
 
@@ -91,7 +91,7 @@ namespace FinalProject
         }
         private void PrintNextMoves()
         {
-            if(tileMap.NextMoves.Contains(tile))
+            if (tileMap.NextMoves.Contains(tile))
             {
                 placeholderColor = ConsoleColor.DarkGreen;
             }

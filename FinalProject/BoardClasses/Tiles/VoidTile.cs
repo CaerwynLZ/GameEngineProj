@@ -17,7 +17,7 @@ namespace FinalProject.BoardClasses
             this.TileObject = null;
             this.Color = ConsoleColor.Black;
             this.Position = new Position(x, y);
-            this.Icon = "{ }";
+            this.Icon = "[ ]";
             this.IconsSides = Icon.Split(' ');
         }
     }
