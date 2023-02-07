@@ -1,5 +1,6 @@
 ﻿using FinalProject.Client;
 using FinalProject.Engine.Abstracts;
+using FinalProject.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace FinalProject
 {
     public class GameEngine : GameEngineCore
     {
+        Tile tile;
         public GameEngine()
         {
             this.Renderer = new Renderer();
@@ -40,10 +42,57 @@ namespace FinalProject
         {
             this.PropertyOptions.Add(optionNumber, describe);
         }
+        public void ChooseTile(int x, int y)
+        {
+            this.TileMap.NextMoves.Clear();
+            tile = this.TileMap.SelectTile(x, y);
+            MoveableOptions(tile.TileObject);
+
+        }
+        private void MoveableOptions(TileObject tileObject)
+        {
+            for(int i=0; i<tileObject.MoveSets.Count; i++)
+            {
+                Position pos= tileObject.MoveSets[i]+tileObject.Position;
+                if((pos.X>=0 && pos.X<this.TileMap.Width) && (pos.Y >=0 && pos.Y < this.TileMap.Height))
+                {
+                    this.TileMap.NextMoves.Add(this.TileMap[pos]);
+                }
+            }
+        }
+        public void MoveTo(int x, int y)
+        {
+            var givenPos = new Position(x-1, y-1);
+            tile.TileObject.SetTile(this.TileMap[givenPos]);
+            this.TileMap.SelectedTile = null;
+            this.TileMap.NextMoves.Clear();
+        }
+
         public void AddMenuOptions(string optionNumber, string describe)
         {
             this.Options.Add(optionNumber, describe);
         }
+
+        public dynamic GetConsoleInput<T>(string command)
+        {
+            Console.WriteLine(command);
+            if (typeof(T) == typeof(int))
+            {
+                return int.Parse(Console.ReadLine());
+            }
+            else if (typeof(T) == typeof(string))
+            {
+                return Console.ReadLine();
+            }
+            else
+            {
+                return false;
+            }
+
+
+        }
+
+
         //public void AddPropertyOptions(string optionNumber, string desc)
         //{
         //    this.PropertyOptions.Add("1", "Add Movement Set to TileObject");

@@ -19,6 +19,7 @@ namespace FinalProject.Engine.Abstracts
         public virtual Tile Tile { get; set; }
         public virtual List<Position> MoveSets { get; set; }
 
+       
         public virtual void AddMoveSet(Position moveSet)
         {
             var p = moveSet + Position;
@@ -35,6 +36,18 @@ namespace FinalProject.Engine.Abstracts
             u.Owner = Owner;
             return u;
         }
+        public virtual void SetTile(Tile tile)
+        {
+            DeleteTile();
+            this.Tile = tile;
+            this.Position = tile.Position;
+            tile.TileObject = this;
+        }
+        public virtual void DeleteTile()
+        {
+            this.Tile.TileObject = null;
+        }
+
     }
 
     public enum MoveDirect { Positive, Negative, Both };

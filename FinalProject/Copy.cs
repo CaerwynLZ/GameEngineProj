@@ -162,11 +162,11 @@ namespace FinalProject
                         RenderGameEngine(gameEngine);
                         break;
                     case "6":
-                        if (gameEngine.TileMap.SelectedTile != null)
-                        {
-                            var tile = gameEngine.PlaceTile(gameEngine.TileMap.SelectedTile, new BoardTile(gameEngine.TileMap.SelectedTile.Position.X, gameEngine.TileMap.SelectedTile.Position.Y));
-                            gameEngine.TileMap.SelectedTile = tile;
-                        }
+                        //if (gameEngine.TileMap.SelectedTile != null)
+                        //{
+                        //    var tile = gameEngine.PlaceTile(gameEngine.TileMap.SelectedTile, new BoardTile(gameEngine.TileMap.SelectedTile.Position.X, gameEngine.TileMap.SelectedTile.Position.Y));
+                        //    gameEngine.TileMap.SelectedTile = tile;
+                        //}
                         RenderGameEngine(gameEngine);
                         break;
                     case "7":

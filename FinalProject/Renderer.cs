@@ -1,8 +1,10 @@
 ﻿using FinalProject.BoardClasses;
+using FinalProject.Engine.Abstracts;
 using FinalProject.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +12,9 @@ namespace FinalProject
 {
     public class Renderer : IRenderer
     {
-        public ConsoleColor placeholderColor;
+        Tile tile;
+        TileMap tileMap;
+        ConsoleColor placeholderColor;
         public void RenderMenu()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -45,45 +49,69 @@ namespace FinalProject
         }
         public void RenderTileMap(TileMap tileMap)
         {
+            this.tileMap = tileMap;
+            Console.Clear();
             for (int y = 0; y < tileMap.Height; y++)
             {
                 for (int x = 0; x < tileMap.Width; x++)
                 {
-                    var tile = tileMap[new Position(x, y)];
+                    tile = tileMap[new Position(x, y)];
 
                     //Make selected tile red
-                    if (tileMap.SelectedTile == tile)
-                        SetColor(ConsoleColor.Red);
-                    
-
-                    Console.Write("[");
+                    placeholderColor = ConsoleColor.White;
+                    PrintSelect();
+                    PrintNextMoves();
+                    Console.Write(tile.IconsSides[0]);
 
                     //Set Tile Color if it has one
-                    if (tile.Color != null)
+                    if (tile.Color != null) 
                         Console.BackgroundColor = (ConsoleColor)tile.Color;
 
-                    //Input tile object if tile contains one
-                    if (tile.TileObject != null)
-                    {
-                        if (tile.TileObject != null)
-                            SetColor((ConsoleColor)tile.TileObject.Color);
-                        Console.Write(tile.TileObject.Icon);
-                    }
-                    else
-                    {
-                        Console.Write(" ");
-                    }
-                    SetColor(ConsoleColor.White);
-                    Console.Write("]");
+                    PrintIcons();
+                    PrintSelect();
+
+                    Console.BackgroundColor = ConsoleColor.Black;
+
+                    Console.Write(tile.IconsSides[1]);
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 Console.WriteLine();
+                
             }
         }
-        public void SetColor(ConsoleColor color)
+
+        private void PrintSelect()
         {
-            placeholderColor = color;
+            if (tileMap.SelectedTile == tile)
+            {
+                placeholderColor = ConsoleColor.DarkGreen;
+            }
+            Console.ForegroundColor = placeholderColor;
+
+        }
+        private void PrintNextMoves()
+        {
+            if(tileMap.NextMoves.Contains(tile))
+            {
+                placeholderColor = ConsoleColor.DarkGreen;
+            }
             Console.ForegroundColor = placeholderColor;
         }
+        private void PrintIcons()
+        {
+            if (tile.TileObject != null)
+            {
+                Console.ForegroundColor = (ConsoleColor)tile.TileObject.Color;
+                Console.Write(tile.TileObject.Icon);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.Write(" ");
+            }
+        }
+
+
         //public void RenderMenu()
         //{
         //    Console.ForegroundColor = ConsoleColor.White;

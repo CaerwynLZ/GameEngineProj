@@ -12,10 +12,13 @@ namespace FinalProject.BoardClasses
         public override TileObject? TileObject { get; set; }
         public override object Color { get; set; }
 
-        public VoidTile(int x, int y) : base(x, y)
+        public VoidTile(int x, int y)
         {
             this.TileObject = null;
             this.Color = ConsoleColor.Black;
+            this.Position = new Position(x, y);
+            this.Icon = "{ }";
+            this.IconsSides = Icon.Split(' ');
         }
     }
 }

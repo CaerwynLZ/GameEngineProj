@@ -12,12 +12,10 @@ namespace FinalProject.Engine.Abstracts
     {
         public Position Position { get; set; }
         public virtual object Color { get; set; }
+        public virtual string Icon { get; set; }
+        public virtual string[] IconsSides { get; set; }
         public virtual TileObject? TileObject { get; set; }
 
-        public Tile(int x, int y)
-        {
-            Position = new Position(x, y);
-        }
     }
 
 }

@@ -30,5 +30,6 @@ namespace FinalProject.Client
             var p = moveSet + Position;
             this.MoveSets.Add(p);
         }
+
     }
 }

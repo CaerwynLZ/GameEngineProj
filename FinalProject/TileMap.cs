@@ -14,6 +14,7 @@ namespace FinalProject
     {
         private Tile[,] Tiles { get; set; }  
         public Tile? SelectedTile { get; set; }
+        public List<Tile> NextMoves { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
 
@@ -21,8 +22,8 @@ namespace FinalProject
         // This will let you access Tiles while tiles can be private by TileMap[new Position(x, y)]
         public Tile this[Position position]
         {
-            get => Tiles[position.X, position.Y];
-            set => Tiles[position.X, position.Y] = value;
+            get => Tiles[position.Y, position.X];
+            set => Tiles[position.Y, position.X] = value;
         }
 
         public TileMap(int width, int height)
@@ -30,23 +31,25 @@ namespace FinalProject
             Width = width;            
             Height = height;
             Tiles = new Tile[height, width];
-
+            NextMoves = new List<Tile>();
             //Fill the TileMap with void tiles
             //Void tiles are tiles that only have locations and no owners or tileObjects on them.
             for(var y = 0; y < height; y++)
             {
                 for(var x = 0; x < width; x++)
                 {
-                    Tiles[x, y] = new VoidTile(x, y);
+                    Tiles[y, x] = new VoidTile(x,y);
                 }
             }
         }
 
         public Tile SelectTile(int x, int y)
         {
-            SelectedTile = Tiles[x - 1, y - 1];
+            SelectedTile = Tiles[y - 1, x - 1];
             return SelectedTile;
         }
+
+
 
         public void DeselectTile()
         {
