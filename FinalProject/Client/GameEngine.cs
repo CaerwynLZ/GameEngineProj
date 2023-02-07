@@ -42,17 +42,19 @@ namespace FinalProject.Client
         {
             PropertyOptions.Add(optionNumber, describe);
         }
-        public void ChooseTile(int x, int y)
+        public bool ChooseTile(int x, int y)
         {
             TileMap.NextMoves.Clear();
             tile = TileMap.SelectTile(x, y);
             if (tile.TileObject != null)
             {
                 MoveableOptions(tile.TileObject);
+                return true;
             }
             else
             {
-
+                TileMap.SelectedTile = null;
+                return false;
             }
         }
         private void MoveableOptions(TileObject tileObject)

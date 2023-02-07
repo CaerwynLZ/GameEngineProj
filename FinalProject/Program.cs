@@ -51,8 +51,13 @@ internal class Program
                 case 0:
                     x = engine.GetConsoleInput<int>("Choose Tile X");
                     y = engine.GetConsoleInput<int>("Choose Tile Y");
-                    engine.ChooseTile(x, y);
-                    progress++;
+
+                    bool available= engine.ChooseTile(x, y);
+                    if (available)
+                        progress++;
+                    else
+                        progress = 0;
+
                     Update();
                     break;
                 case 1:
