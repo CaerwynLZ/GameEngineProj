@@ -13,10 +13,10 @@ namespace FinalProject.Engine.Abstracts
         public virtual TileMap TileMap { get; set; }
         public virtual Actor Actor1 { get; set; }
         public virtual Actor Actor2 { get; set; }
-        public IRenderer Renderer { get; set; }
+        protected IRenderer Renderer { get; set; }
 
-        public Dictionary<string, string> Options = new Dictionary<string, string>();
-        public Dictionary<string, string> PropertyOptions = new Dictionary<string, string>();
+        protected Dictionary<string, string> Options = new Dictionary<string, string>();
+        protected Dictionary<string, string> PropertyOptions = new Dictionary<string, string>();
 
         //public virtual Action<Tile> Action { get; set; }
 

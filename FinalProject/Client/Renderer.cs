@@ -22,7 +22,7 @@ namespace FinalProject.Client
             Console.BackgroundColor = ConsoleColor.Black;
             Console.Clear();
         }
-        public void RenderGameEngine(Dictionary<string, string> options)
+        public void RenderOptions(Dictionary<string, string> options)
         {
             if (options != null)
             {
@@ -44,7 +44,6 @@ namespace FinalProject.Client
                 Console.WriteLine($"{count}: " + option.Value);
                 count++;
             }
-            Console.WriteLine($"{count}: Back");
             Console.WriteLine("");
             Console.Write("Enter your selection: ");
         }
@@ -85,14 +84,18 @@ namespace FinalProject.Client
         {
             if (tileMap.SelectedTile == tile)
             {
-                placeholderColor = ConsoleColor.DarkGreen;
+                placeholderColor = ConsoleColor.Red;
+            }
+            else if(tileMap.SelectedTile == null)
+            {
+                placeholderColor = ConsoleColor.White;
             }
             Console.ForegroundColor = placeholderColor;
 
         }
         private void PrintNextMoves()
         {
-            if (tileMap.NextMoves.Contains(tile))
+            if (tileMap.NextMoves.Contains(tile) && tileMap.SelectedTile != null)
             {
                 placeholderColor = ConsoleColor.DarkGreen;
             }

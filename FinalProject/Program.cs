@@ -52,7 +52,7 @@ internal class Program
                     x = engine.GetConsoleInput<int>("Choose Tile X");
                     y = engine.GetConsoleInput<int>("Choose Tile Y");
 
-                    bool available= engine.ChooseTile(x, y);
+                    bool available = engine.ChooseTile(x, y);
                     if (available)
                         progress++;
                     else
@@ -61,11 +61,26 @@ internal class Program
                     Update();
                     break;
                 case 1:
-                    x = engine.GetConsoleInput<int>("Choose Where To Move X");
-                    y = engine.GetConsoleInput<int>("Choose Where To Move Y");
-                    engine.MoveTo(x,y);
-                    progress = 0;
-                    Update();
+                    engine.AddPropertyOptions("1.", "To deselect");
+                    engine.AddPropertyOptions("2", "To Choose Were to go");
+                    engine.PrintOptions();
+                    string choice = Console.ReadLine();
+                    switch (choice)
+                    {
+                        case "1":
+                            engine.DeselectTile();
+                            progress = 0;
+                            Update();
+                            break;
+                        case "2":
+                            x = engine.GetConsoleInput<int>("Choose Where To Move X");
+                            y = engine.GetConsoleInput<int>("Choose Where To Move Y");
+                            engine.MoveTo(x, y);
+                            progress = 0;
+                            Update();
+                            break;
+                    }
+            
                     break;
                     default:
                     progress=0;

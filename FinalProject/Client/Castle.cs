@@ -45,7 +45,7 @@ namespace FinalProject.Client
             }
             if (moveSet.Y >= 1)
             {
-                for (int i = 0; i <= moveSet.Y; i++)
+                for (int i = 1; i <= moveSet.Y; i++)
                 {
 
                     MoveSets.Add(new Position(0, i));

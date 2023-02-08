@@ -10,7 +10,7 @@ namespace FinalProject.Interfaces
     {
         public void RenderMenu();
         //public void RenderGameEngine(GameEngineCore gameEngine, Dictionary<string, string> options);
-        public void RenderGameEngine(Dictionary<string, string> options);
+        public void RenderOptions(Dictionary<string, string> options);
         public void RenderGame();
         public void RenderTileMap(TileMap tileMap);
     }

@@ -12,6 +12,7 @@ namespace FinalProject.Client
     public class GameEngine : GameEngineCore
     {
         Tile tile;
+        Actor actor;
         public GameEngine()
         {
             Renderer = new Renderer();
@@ -24,6 +25,21 @@ namespace FinalProject.Client
         {
             Actor1 = player1;
             Actor2 = player2;
+            ActorStartTurn();
+        }
+        private void ActorStartTurn()
+        {
+            int turn= Random.Shared.Next(1, 3);
+            if(turn == 1) 
+            {
+                actor = Actor1;
+            }
+            else
+                actor= Actor2;
+        }
+        public void SetTurn()
+        {
+            actor == Actor1 ? Actor2; 
         }
         public void SetUnit(TileObject tileObject)
         {
@@ -42,6 +58,10 @@ namespace FinalProject.Client
         {
             PropertyOptions.Add(optionNumber, describe);
         }
+        public void PrintOptions()
+        {
+            Renderer.RenderOptions(PropertyOptions);
+        }
         public bool ChooseTile(int x, int y)
         {
             TileMap.NextMoves.Clear();
@@ -53,9 +73,14 @@ namespace FinalProject.Client
             }
             else
             {
-                TileMap.SelectedTile = null;
+                DeselectTile();
                 return false;
             }
+        }
+        public void DeselectTile()
+        {
+            TileMap.SelectedTile = null;
+            PropertyOptions.Clear();
         }
         private void MoveableOptions(TileObject tileObject)
         {
@@ -64,16 +89,43 @@ namespace FinalProject.Client
                 Position pos = tileObject.MoveSets[i] + tileObject.Position;
                 if (pos.X >= 0 && pos.X < TileMap.Width && pos.Y >= 0 && pos.Y < TileMap.Height)
                 {
-                    TileMap.NextMoves.Add(TileMap[pos]);
+                    var enemyObj = TileMap[pos].TileObject;
+                    if (enemyObj == null)
+                    {
+                        TileMap.NextMoves.Add(TileMap[pos]);
+                    }
+                    else
+                    {
+                        if(!enemyObj.Owner.Equals(tileObject.Owner))
+                        {
+                            TileMap.NextMoves.Add(TileMap[pos]);
+                        }
+                    }
                 }
             }
         }
         public void MoveTo(int x, int y)
         {
             var givenPos = new Position(x - 1, y - 1);
-            tile.TileObject.SetTile(TileMap[givenPos]);
-            TileMap.SelectedTile = null;
-            TileMap.NextMoves.Clear();
+            if (TileMap.NextMoves.Contains(TileMap[givenPos]))
+            {
+                if(TileMap[givenPos].TileObject!=null)
+                {
+                    EatObject(TileMap[givenPos], TileMap[givenPos].TileObject.Owner);
+                }
+                tile.TileObject.SetTile(TileMap[givenPos]);
+                DeselectTile();
+                TileMap.NextMoves.Clear();
+            }
+            else
+            {
+                DeselectTile();
+            }
+        }
+        private void EatObject(Tile eaten, Actor actor)
+        {
+            actor.TileObjects.Remove(eaten.TileObject);
+            eaten.TileObject = null;
         }
         public void AddMenuOptions(string optionNumber, string describe)
         {
