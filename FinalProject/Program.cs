@@ -33,7 +33,7 @@ internal class Program
             engine.SetUnit(new BoardTileObject(p2, map[new Position(7, 7)]));
             engine.SetUnit(new BoardTileObject(p2, map[new Position(5, 7)]));
             engine.SetUnit(new BoardTileObject(p2, map[new Position(3, 7)]));
-            engine.SetUnit(new BoardTileObject(p2, map[new Position(1, 7)]));
+            //engine.SetUnit(new BoardTileObject(p2, map[new Position(1, 7)]));
 
             Update();
         }

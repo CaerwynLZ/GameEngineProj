@@ -16,7 +16,7 @@ namespace FinalProject.Client
             Color = owner.Color;
             Tile = currentPos;
             Position = Tile.Position;
-            MoveSets = new List<Position>();
+            MoveSets = new List<List<Position>>();
             Name = "Castel";
             Icon = "C";
 
@@ -29,36 +29,40 @@ namespace FinalProject.Client
         }
         public override void AddMoveSet(Position moveSet)
         {
+            var GiveBehaveMove = new List<Position>();
             if (moveSet.X >= 1)
             {
                 for (int i = 1; i <= moveSet.X; i++)
                 {
-                    MoveSets.Add(new Position(i, 0));
+                    GiveBehaveMove.Add(new Position(i, 0));
                 }
+                MoveSets.Add(GiveBehaveMove);
             }
             else if (moveSet.X <= -1)
             {
                 for (int i = -1; i >= moveSet.X; i--)
                 {
-                    MoveSets.Add(new Position(i, 0));
+                    GiveBehaveMove.Add(new Position(i, 0));
                 }
+                MoveSets.Add(GiveBehaveMove);
             }
             if (moveSet.Y >= 1)
             {
                 for (int i = 1; i <= moveSet.Y; i++)
                 {
 
-                    MoveSets.Add(new Position(0, i));
+                    GiveBehaveMove.Add(new Position(0, i));
                 }
+                MoveSets.Add(GiveBehaveMove);
             }
             else if (moveSet.Y <= -1)
             {
                 for (int i = -1; i >= moveSet.Y; i--)
                 {
-                    MoveSets.Add(new Position(0, i));
+                    GiveBehaveMove.Add(new Position(0, i));
                 }
+                MoveSets.Add(GiveBehaveMove);
             }
-
         }
     }
 }

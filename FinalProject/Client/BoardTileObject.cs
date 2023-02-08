@@ -16,7 +16,7 @@ namespace FinalProject.Client
             this.Color = owner.Color;
             this.Tile = currentPos;
             this.Position = Tile.Position;
-            this.MoveSets = new List<Position>();
+            this.MoveSets = new List<List<Position>>();
             this.Name = "Liron";
             this.Icon = "L";
 
@@ -26,11 +26,11 @@ namespace FinalProject.Client
             currentPos.TileObject = this;
         }
 
-        public override void AddMoveSet(Position moveSet)
-        {
-            var p = moveSet + Position;
-            this.MoveSets.Add(p);
-        }
+        //public override void AddMoveSet(Position moveSet)
+        //{
+        //    var p = moveSet + Position;
+        //    this.MoveSets.Add(p);
+        //}
 
     }
 }

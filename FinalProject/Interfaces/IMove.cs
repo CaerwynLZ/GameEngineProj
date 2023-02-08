@@ -9,7 +9,7 @@ namespace FinalProject.Interfaces
 {
     public interface IMove
     {
-        public List<Position> MoveSets { get; set; }
+        public List<List<Position>> MoveSets { get; set; }
         public void AddMoveSet(Position moveset);
     }
 }

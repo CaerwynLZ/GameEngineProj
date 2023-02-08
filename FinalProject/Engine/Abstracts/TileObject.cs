@@ -17,13 +17,12 @@ namespace FinalProject.Engine.Abstracts
         public virtual object Icon { get; set; }
         public virtual object Color { get; set; }
         public virtual Tile Tile { get; set; }
-        public virtual List<Position> MoveSets { get; set; }
+        public virtual List<List<Position>> MoveSets { get; set; }
 
        
         public virtual void AddMoveSet(Position moveSet)
         {
-            var p = moveSet + Position;
-            MoveSets.Add(p);
+            
         }
 
         public virtual TileObject Clone()
