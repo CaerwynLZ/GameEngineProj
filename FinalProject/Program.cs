@@ -10,8 +10,8 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Actor p1= new Actor(1,"Sam",ConsoleColor.Red);
-        Actor p2 = new Actor(2, "Layan", ConsoleColor.Cyan);
+        Actor p1= new Actor("Sam",ConsoleColor.Red);
+        Actor p2 = new Actor("Layan", ConsoleColor.Cyan);
         GameEngine engine = new GameEngine();
         int x, y;
         int progress;
@@ -24,17 +24,38 @@ internal class Program
             engine.CreateBoard(8, 8);
             engine.SetPlayers(p1, p2);
             var map = engine.TileMap;
-            engine.SetUnit(new BoardTileObject(p1,map[new Position(0,0)]));
-            engine.SetUnit(new BoardTileObject(p1, map[new Position(2, 0)]));
-            engine.SetUnit(new BoardTileObject(p1, map[new Position(4, 0)]));
-            engine.SetUnit(new BoardTileObject(p1, map[new Position(6, 0)]));
+            engine.SetUnit(new Castle(p1, map[new Position(0, 0)]));
+            engine.SetUnit(new Castle(p1, map[new Position(7, 0)]));
+            engine.SetUnit(new Bishop(p1, map[new Position(2, 0)]));
+            engine.SetUnit(new Bishop(p1, map[new Position(5, 0)]));
+            engine.SetUnit(new Horse(p1, map[new Position(6, 0)]));
+            engine.SetUnit(new Horse(p1, map[new Position(1, 0)]));
+            engine.SetUnit(new BoardTileObject(p1, map[new Position(0, 1)]));
+            engine.SetUnit(new BoardTileObject(p1, map[new Position(1, 1)]));
+            engine.SetUnit(new BoardTileObject(p1, map[new Position(2, 1)]));
+            engine.SetUnit(new BoardTileObject(p1, map[new Position(3, 1)]));
+            engine.SetUnit(new BoardTileObject(p1, map[new Position(4, 1)]));
+            engine.SetUnit(new BoardTileObject(p1, map[new Position(5, 1)]));
+            engine.SetUnit(new BoardTileObject(p1, map[new Position(6, 1)]));
+            engine.SetUnit(new BoardTileObject(p1, map[new Position(7, 1)]));
 
-            engine.SetUnit(new Castle(p2, map[new Position(0, 7)]));                                       
-            engine.SetUnit(new BoardTileObject(p2, map[new Position(7, 7)]));
-            engine.SetUnit(new BoardTileObject(p2, map[new Position(5, 7)]));
-            engine.SetUnit(new BoardTileObject(p2, map[new Position(3, 7)]));
-            //engine.SetUnit(new BoardTileObject(p2, map[new Position(1, 7)]));
 
+            engine.SetUnit(new Castle(p2, map[new Position(0, 7)]));
+            engine.SetUnit(new Castle(p2, map[new Position(7, 7)]));
+            engine.SetUnit(new Bishop(p2, map[new Position(2, 7)]));
+            engine.SetUnit(new Bishop(p2, map[new Position(5, 7)]));
+            engine.SetUnit(new Horse(p2, map[new Position(6, 7)]));
+            engine.SetUnit(new Horse(p2, map[new Position(1, 7)]));
+            engine.SetUnit(new BoardTileObject(p2, map[new Position(0, 6)]));
+            engine.SetUnit(new BoardTileObject(p2, map[new Position(1, 6)]));
+            engine.SetUnit(new BoardTileObject(p2, map[new Position(2, 6)]));
+            engine.SetUnit(new BoardTileObject(p2, map[new Position(3, 6)]));
+            engine.SetUnit(new BoardTileObject(p2, map[new Position(4, 6)]));
+            engine.SetUnit(new BoardTileObject(p2, map[new Position(5, 6)]));
+            engine.SetUnit(new BoardTileObject(p2, map[new Position(6, 6)]));
+            engine.SetUnit(new BoardTileObject(p2, map[new Position(7, 6)]));
+
+            PassTurn();
             Update();
         }
 
@@ -46,6 +67,7 @@ internal class Program
 
         void Battle()
         {
+            Console.WriteLine($"It's {engine.actor.Name} turn");
             switch (progress)
             {
                 case 0:
@@ -77,6 +99,7 @@ internal class Program
                             y = engine.GetConsoleInput<int>("Choose Where To Move Y");
                             engine.MoveTo(x, y);
                             progress = 0;
+                            PassTurn();
                             Update();
                             break;
                     }
@@ -88,8 +111,9 @@ internal class Program
                     break;
             }
         }
-        // Start a new Game Engine
-        //var renderer = new Renderer();
-        //renderer.RenderMenu();
+        void PassTurn()
+        {
+            engine.SetTurn();
+        }
     }
 }

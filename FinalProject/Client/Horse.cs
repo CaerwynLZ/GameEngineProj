@@ -1,39 +1,40 @@
-﻿using System;
+﻿using FinalProject.Engine.Abstracts;
+using FinalProject.Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FinalProject.Engine;
-using FinalProject.Engine.Abstracts;
 
 namespace FinalProject.Client
 {
-    public class BoardTileObject : TileObject
+    public class Horse : TileObject
     {
-        public BoardTileObject(Actor owner,Tile currentPos)
+        public Horse(Actor owner, Tile currentPos)
         {
             this.Owner = owner;
             this.Color = owner.Color;
             this.Tile = currentPos;
             this.Position = Tile.Position;
             this.MoveSets = new List<List<Position>>();
-            this.Name = "Liron";
-            this.Icon = "L";
+            this.Name = "Horse";
+            this.Icon = "H";
 
-            AddMoveSet(new Position(0, 1));
+            AddMoveSet(new Position(1, 2));
+            AddMoveSet(new Position(-1, 2));
+            AddMoveSet(new Position(1, -2));
+            AddMoveSet(new Position(-1, -2));
+            AddMoveSet(new Position(2, 1));
+            AddMoveSet(new Position(-2, 1));
+            AddMoveSet(new Position(-2, -1));
+            AddMoveSet(new Position(2, -1));
+
 
             currentPos.TileObject = this;
         }
 
         public override void AddMoveSet(Position moveSet)
         {
-            var offset = 1;
-            Position startPos = Position;
-            if (Owner.ID == 2)
-            {
-                offset = -1;
-                moveSet= new Position(moveSet.X, moveSet.Y*offset);
-            }
             var GiveBehaveMove = new List<Position>();
             GiveBehaveMove.Add(moveSet);
             this.MoveSets.Add(GiveBehaveMove);

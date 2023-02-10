@@ -12,7 +12,7 @@ namespace FinalProject.Client
     public class GameEngine : GameEngineCore
     {
         Tile tile;
-        Actor actor;
+        public Actor actor;
         public GameEngine()
         {
             Renderer = new Renderer();
@@ -24,23 +24,14 @@ namespace FinalProject.Client
         public void SetPlayers(Actor player1, Actor player2)
         {
             Actor1 = player1;
+            Actor1.ID = 1;
             Actor2 = player2;
-            ActorStartTurn();
+            Actor2.ID = 2;
         }
-        private void ActorStartTurn()
+        public void SetTurn()
         {
-            int turn= Random.Shared.Next(1, 3);
-            if(turn == 1) 
-            {
-                actor = Actor1;
-            }
-            else
-                actor= Actor2;
+            actor = actor==Actor1 ? Actor2 : Actor1;
         }
-        //public void SetTurn()
-        //{
-        //    actor == Actor1 ? Actor2; 
-        //}
         public void SetUnit(TileObject tileObject)
         {
             if (tileObject.Owner == Actor1)
@@ -66,7 +57,7 @@ namespace FinalProject.Client
         {
             TileMap.NextMoves.Clear();
             tile = TileMap.SelectTile(x, y);
-            if (tile.TileObject != null)
+            if (tile.TileObject != null && actor.TileObjects.Contains(tile.TileObject))
             {
                 MoveableOptions(tile.TileObject);
                 return true;

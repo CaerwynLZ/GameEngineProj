@@ -20,10 +20,7 @@ namespace FinalProject.Engine.Abstracts
         public virtual List<List<Position>> MoveSets { get; set; }
 
        
-        public virtual void AddMoveSet(Position moveSet)
-        {
-            
-        }
+        public virtual void AddMoveSet(Position moveSet) { }
 
         public virtual TileObject Clone()
         {
@@ -48,6 +45,4 @@ namespace FinalProject.Engine.Abstracts
         }
 
     }
-
-    public enum MoveDirect { Positive, Negative, Both };
 }

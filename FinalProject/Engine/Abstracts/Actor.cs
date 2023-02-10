@@ -14,9 +14,8 @@ namespace FinalProject.Engine.Abstracts
         public virtual object Color { get; set; }
         public virtual List<TileObject> TileObjects { get; set; }
 
-        public Actor(int iD, string name, ConsoleColor color)
+        public Actor(string name, ConsoleColor color)
         {
-            ID = iD;
             Name = name;
             Color = color;
             TileObjects = new List<TileObject>();
