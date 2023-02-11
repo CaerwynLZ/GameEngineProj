@@ -25,11 +25,13 @@ internal class Program
             engine.SetPlayers(p1, p2);
             var map = engine.TileMap;
             engine.SetUnit(new Castle(p1, map[new Position(0, 0)]));
-            engine.SetUnit(new Castle(p1, map[new Position(7, 0)]));
+            engine.SetUnit(new Horse(p1, map[new Position(1, 0)]));
             engine.SetUnit(new Bishop(p1, map[new Position(2, 0)]));
+            engine.SetUnit(new Queen(p1, map[new Position(3, 0)]));
+            engine.SetUnit(new King(p1, map[new Position(4, 0)]));
             engine.SetUnit(new Bishop(p1, map[new Position(5, 0)]));
             engine.SetUnit(new Horse(p1, map[new Position(6, 0)]));
-            engine.SetUnit(new Horse(p1, map[new Position(1, 0)]));
+            engine.SetUnit(new Castle(p1, map[new Position(7, 0)]));
             engine.SetUnit(new BoardTileObject(p1, map[new Position(0, 1)]));
             engine.SetUnit(new BoardTileObject(p1, map[new Position(1, 1)]));
             engine.SetUnit(new BoardTileObject(p1, map[new Position(2, 1)]));
@@ -41,11 +43,13 @@ internal class Program
 
 
             engine.SetUnit(new Castle(p2, map[new Position(0, 7)]));
-            engine.SetUnit(new Castle(p2, map[new Position(7, 7)]));
+            engine.SetUnit(new Horse(p2, map[new Position(1, 7)]));
             engine.SetUnit(new Bishop(p2, map[new Position(2, 7)]));
+            engine.SetUnit(new Queen(p2, map[new Position(3, 7)]));
+            engine.SetUnit(new King(p2, map[new Position(4, 7)]));
             engine.SetUnit(new Bishop(p2, map[new Position(5, 7)]));
             engine.SetUnit(new Horse(p2, map[new Position(6, 7)]));
-            engine.SetUnit(new Horse(p2, map[new Position(1, 7)]));
+            engine.SetUnit(new Castle(p2, map[new Position(7, 7)]));
             engine.SetUnit(new BoardTileObject(p2, map[new Position(0, 6)]));
             engine.SetUnit(new BoardTileObject(p2, map[new Position(1, 6)]));
             engine.SetUnit(new BoardTileObject(p2, map[new Position(2, 6)]));

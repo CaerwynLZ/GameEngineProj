@@ -17,8 +17,8 @@ namespace FinalProject.Client
             this.Tile = currentPos;
             this.Position = Tile.Position;
             this.MoveSets = new List<List<Position>>();
-            this.Name = "Liron";
-            this.Icon = "L";
+            this.Name = "Pawn";
+            this.Icon = "P";
 
             AddMoveSet(new Position(0, 1));
 
