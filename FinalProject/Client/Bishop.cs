@@ -33,7 +33,6 @@ namespace FinalProject.Client
             var GiveBehaveMove = new List<Position>();
             var offset = 1;
 
-
             for(int i = 1; i <= absX; i++)
             {
                 if (moveSet.X <= -1 && moveSet.Y <= -1)

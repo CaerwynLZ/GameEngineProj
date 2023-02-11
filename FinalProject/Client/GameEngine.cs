@@ -25,6 +25,7 @@ namespace FinalProject.Client
         {
             Actor1 = player1;
             Actor1.ID = 1;
+
             Actor2 = player2;
             Actor2.ID = 2;
         }
