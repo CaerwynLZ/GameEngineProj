@@ -17,8 +17,8 @@ namespace FinalProject.Client
             Tile = currentPos;
             Position = Tile.Position;
             MoveSets = new List<List<Position>>();
-            Name = "Castel";
-            Icon = "C";
+            Name = "Rook";
+            Icon = "R";
 
             AddMoveSet(new Position(10, 0));
             AddMoveSet(new Position(0, 10));

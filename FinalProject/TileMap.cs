@@ -13,7 +13,7 @@ namespace FinalProject
 {
     public class TileMap : IEnumerable<Tile>
     {
-        private Tile[,] Tiles { get; set; }  
+        private Tile[,] Tiles { get; set; }
         public Tile? SelectedTile { get; set; }
         public List<Tile> NextMoves { get; set; }
         public int Width { get; set; }

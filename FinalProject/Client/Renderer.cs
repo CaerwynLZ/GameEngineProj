@@ -53,8 +53,18 @@ namespace FinalProject.Client
             Console.Clear();
             for (int y = 0; y < tileMap.Height; y++)
             {
+                if(y==0)
+                {
+                    Console.Write(" ");
+                    for(int i=0; i<tileMap.Width; i++) 
+                    {
+                        Console.Write($" {i +1} ");
+                    }
+                    Console.WriteLine();
+                }
                 for (int x = 0; x < tileMap.Width; x++)
                 {
+                    if (x == 0) { Console.Write($"{y + 1}"); }
                     tile = tileMap[new Position(x, y)];
 
                     //Make selected tile red

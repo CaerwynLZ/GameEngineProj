@@ -76,36 +76,7 @@ namespace FinalProject.Client
         }
         private void MoveableOptions(TileObject tileObject)
         {
-            int enemyhold;
-            for (int i = 0; i < tileObject.MoveSets.Count; i++)
-            {
-                enemyhold = 0;
-                for (int j = 0; j < tileObject.MoveSets[i].Count; j++)
-                {
-                    Position pos = tileObject.MoveSets[i][j] + tileObject.Position;
-                    if (pos.X >= 0 && pos.X < TileMap.Width && pos.Y >= 0 && pos.Y < TileMap.Height)
-                    {
-                        var enemyObj = TileMap[pos].TileObject;
-                        if (enemyObj == null)
-                        {
-                            TileMap.NextMoves.Add(TileMap[pos]);
-                        }
-                        else
-                        {
-                            if (!enemyObj.Owner.Equals(tileObject.Owner) && enemyhold==0)
-                            {
-                                TileMap.NextMoves.Add(TileMap[pos]);
-                                enemyhold = 1;
-                                break;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            tileObject.GiveMoves(TileMap);
         }
         public void MoveTo(int x, int y)
         {
