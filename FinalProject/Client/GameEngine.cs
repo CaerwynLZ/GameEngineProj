@@ -13,6 +13,7 @@ namespace FinalProject.Client
     {
         Tile tile;
         public Actor actor;
+        Actor enemy;
         public GameEngine()
         {
             Renderer = new Renderer();
@@ -28,10 +29,22 @@ namespace FinalProject.Client
 
             Actor2 = player2;
             Actor2.ID = 2;
+
+            actor = Actor1;
+            enemy = Actor2;
         }
         public void SetTurn()
         {
-            actor = actor==Actor1 ? Actor2 : Actor1;
+            if (actor == Actor1)
+            {
+                actor = Actor2;
+                enemy = Actor1;
+            }
+            else
+            {
+                actor = Actor1;
+                enemy = Actor2;
+            }
         }
         public void SetUnit(TileObject tileObject)
         {
@@ -60,7 +73,12 @@ namespace FinalProject.Client
             tile = TileMap.SelectTile(x, y);
             if (tile.TileObject != null && actor.TileObjects.Contains(tile.TileObject))
             {
-                MoveableOptions(tile.TileObject);
+                if (Check() == false)
+                {
+                    MoveableOptions(tile.TileObject);
+                }
+                else
+                    Console.WriteLine("Check");
                 return true;
             }
             else
@@ -69,7 +87,7 @@ namespace FinalProject.Client
                 return false;
             }
         }
-        //shit
+
         public void DeselectTile()
         {
             TileMap.SelectedTile = null;
@@ -78,6 +96,20 @@ namespace FinalProject.Client
         private void MoveableOptions(TileObject tileObject)
         {
             tileObject.GiveMoves(TileMap);
+        }
+        public bool Check()
+        {
+            bool check=false;
+            for(int i=0; i<enemy.TileObjects.Count; i++)
+            {
+                var enemyObj= enemy.TileObjects[i];
+                check= enemyObj.GiveMoves(TileMap);
+                if(check==true)
+                {
+                    break;
+                }
+            }
+            return check;
         }
         public void MoveTo(int x, int y)
         {

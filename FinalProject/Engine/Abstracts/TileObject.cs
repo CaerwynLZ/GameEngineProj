@@ -45,11 +45,10 @@ namespace FinalProject.Engine.Abstracts
             this.Tile.TileObject = null;
         }
 
-        public virtual void GiveMoves(TileMap TileMap)
+        public virtual bool GiveMoves(TileMap TileMap)
         {
             for (int i = 0; i < this.MoveSets.Count; i++)
             {
-
                 for (int j = 0; j < this.MoveSets[i].Count; j++)
                 {
                     Position pos = this.MoveSets[i][j] + this.Position;
@@ -64,8 +63,16 @@ namespace FinalProject.Engine.Abstracts
                         {
                             if (!enemyObj.Owner.Equals(this.Owner))
                             {
-                                TileMap.NextMoves.Add(TileMap[pos]);
-                                break;
+                                if (enemyObj.Name == "King")
+                                {
+                                    TileMap.NextMoves.Add(TileMap[pos]);
+                                    return true;
+                                }
+                                else
+                                {
+                                    TileMap.NextMoves.Add(TileMap[pos]);
+                                    break;
+                                }
                             }
                             else
                             {
@@ -75,6 +82,7 @@ namespace FinalProject.Engine.Abstracts
                     }
                 }
             }
+            return false;
         }
         public enum State { Start, Normal, Attack}
 

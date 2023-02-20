@@ -32,14 +32,14 @@ internal class Program
             engine.SetUnit(new Bishop(p1, map[new Position(5, 0)]));
             engine.SetUnit(new Horse(p1, map[new Position(6, 0)]));
             engine.SetUnit(new Castle(p1, map[new Position(7, 0)]));
-            engine.SetUnit(new BoardTileObject(p1, map[new Position(0, 1)]));
-            engine.SetUnit(new BoardTileObject(p1, map[new Position(1, 1)]));
-            engine.SetUnit(new BoardTileObject(p1, map[new Position(2, 1)]));
-            engine.SetUnit(new BoardTileObject(p1, map[new Position(3, 1)]));
-            engine.SetUnit(new BoardTileObject(p1, map[new Position(4, 1)]));
-            engine.SetUnit(new BoardTileObject(p1, map[new Position(5, 1)]));
-            engine.SetUnit(new BoardTileObject(p1, map[new Position(6, 1)]));
-            engine.SetUnit(new BoardTileObject(p1, map[new Position(7, 1)]));
+            engine.SetUnit(new Pawn(p1, map[new Position(0, 1)]));
+            engine.SetUnit(new Pawn(p1, map[new Position(1, 1)]));
+            engine.SetUnit(new Pawn(p1, map[new Position(2, 1)]));
+            engine.SetUnit(new Pawn(p1, map[new Position(3, 1)]));
+            engine.SetUnit(new Pawn(p1, map[new Position(4, 1)]));
+            engine.SetUnit(new Pawn(p1, map[new Position(5, 1)]));
+            engine.SetUnit(new Pawn(p1, map[new Position(6, 1)]));
+            engine.SetUnit(new Pawn(p1, map[new Position(7, 1)]));
 
 
             engine.SetUnit(new Castle(p2, map[new Position(0, 7)]));
@@ -50,14 +50,14 @@ internal class Program
             engine.SetUnit(new Bishop(p2, map[new Position(5, 7)]));
             engine.SetUnit(new Horse(p2, map[new Position(6, 7)]));
             engine.SetUnit(new Castle(p2, map[new Position(7, 7)]));
-            engine.SetUnit(new BoardTileObject(p2, map[new Position(0, 6)]));
-            engine.SetUnit(new BoardTileObject(p2, map[new Position(1, 6)]));
-            engine.SetUnit(new BoardTileObject(p2, map[new Position(2, 6)]));
-            engine.SetUnit(new BoardTileObject(p2, map[new Position(3, 6)]));
-            engine.SetUnit(new BoardTileObject(p2, map[new Position(4, 6)]));
-            engine.SetUnit(new BoardTileObject(p2, map[new Position(5, 6)]));
-            engine.SetUnit(new BoardTileObject(p2, map[new Position(6, 6)]));
-            engine.SetUnit(new BoardTileObject(p2, map[new Position(7, 6)]));
+            engine.SetUnit(new Pawn(p2, map[new Position(0, 6)]));
+            engine.SetUnit(new Pawn(p2, map[new Position(1, 6)]));
+            engine.SetUnit(new Pawn(p2, map[new Position(2, 6)]));
+            engine.SetUnit(new Pawn(p2, map[new Position(3, 6)]));
+            engine.SetUnit(new Pawn(p2, map[new Position(4, 6)]));
+            engine.SetUnit(new Pawn(p2, map[new Position(5, 6)]));
+            engine.SetUnit(new Pawn(p2, map[new Position(6, 6)]));
+            engine.SetUnit(new Pawn(p2, map[new Position(7, 6)]));
 
             PassTurn();
             Update();
