@@ -71,11 +71,15 @@ internal class Program
 
         void Battle()
         {
-            if(engine.Check())
+
+            Console.WriteLine($"It's {engine.actor.Name}'s turn");
+            if (engine.Check())
             {
                 Console.WriteLine("Check");
             }
-            Console.WriteLine($"It's {engine.actor.Name}'s turn");
+            else
+                engine.TileMap.NextMoves.Clear();
+
             switch (progress)
             {
                 case 0:

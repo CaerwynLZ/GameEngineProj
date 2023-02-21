@@ -15,9 +15,11 @@ namespace FinalProject.Client
         public Actor actor;
         Actor enemy;
         Renderer renderer;
+        List<TileObject> objectsCheck;
         public GameEngine()
         {
             renderer = new Renderer();
+            objectsCheck = new List<TileObject>();
         }
         public void CreateBoard(int tileWidth, int tileHeight)
         {
@@ -34,15 +36,15 @@ namespace FinalProject.Client
         }
         public void SetTurn()
         {
-            if (actor == Actor1)
-            {
-                actor = Actor2;
-                enemy = Actor1;
-            }
-            else
+            if (actor == Actor2)
             {
                 actor = Actor1;
                 enemy = Actor2;
+            }
+            else
+            {
+                actor = Actor2;
+                enemy = Actor1;
             }
         }
         public void SetUnit(TileObject tileObject)
@@ -68,13 +70,12 @@ namespace FinalProject.Client
         }
         public bool ChooseTile(int x, int y)
         {
+
             TileMap.NextMoves.Clear();
             tile = TileMap.SelectTile(x, y);
             if (tile.TileObject != null && actor.TileObjects.Contains(tile.TileObject))
             {
-                TileMap.NextMoves.Clear();
-                MoveableOptions(tile.TileObject);
-                return true;
+                return MoveableOptions(tile.TileObject);
             }
             else
             {
@@ -85,16 +86,36 @@ namespace FinalProject.Client
         
         public bool Check()
         {
-            for(int i = 0; i < enemy.TileObjects.Count; i++)
+            objectsCheck.Clear();
+            if (ActorCheck(Actor1))
             {
-                var enemyChec = enemy.TileObjects[i];
-                var enemyKing = enemyChec.GiveMoves(TileMap);
+                return true;
+            }
+            else if (ActorCheck(Actor2))
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        private bool ActorCheck(Actor player)
+        {
+            for (int i = 0; i < player.TileObjects.Count; i++)
+            {
+                var enemyCheck = player.TileObjects[i];
+                var enemyKing = enemyCheck.GiveMoves(TileMap);
                 if (enemyKing != null)
                 {
-                    return true;
+                    objectsCheck.Add(enemyCheck);
                 }
             }
-            return false;
+
+            if(objectsCheck.Count > 0)
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
         public void DeselectTile()
@@ -102,9 +123,47 @@ namespace FinalProject.Client
             TileMap.SelectedTile = null;
             PropertyOptions.Clear();
         }
-        private void MoveableOptions(TileObject tileObject)
+        private bool MoveableOptions(TileObject tileObject)
         {
             tileObject.GiveMoves(TileMap);
+            if (objectsCheck.Count > 0)
+            {
+                for (int i = 0; i < TileMap.NextMoves.Count; i++)
+                {
+                    Position pos = TileMap.NextMoves[i].Position;
+                    if (InCheckPosition(pos))
+                    {
+                        return true;
+                    }
+
+                }
+                DeselectTile();
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        }
+        private bool InCheckPosition(Position position)
+        {
+            List<Position> positions= new List<Position>();
+            for (int i = 0; i < objectsCheck.Count; i++)
+            {
+                for(int j=0; j < objectsCheck[i].MoveSets.Count; j++)
+                {
+                    for (int z = 0; z < objectsCheck[i].MoveSets[j].Count; z++)
+                    {
+                        positions.Add(objectsCheck[i].MoveSets[j][z]+objectsCheck[i].Position);
+                    }
+                        if (positions.Contains(position))
+                        {
+                            return true;
+                        }
+                }
+            }
+            return false;
         }
 
         public void MoveTo(int x, int y)
@@ -118,7 +177,6 @@ namespace FinalProject.Client
                 }
                 tile.TileObject.SetTile(TileMap[givenPos]);
                 DeselectTile();
-                TileMap.NextMoves.Clear();
             }
             else
             {

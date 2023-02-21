@@ -106,6 +106,7 @@ namespace FinalProject.Client
         {
             if (tileMap.NextMoves.Contains(tile) && tileMap.SelectedTile != null)
             {
+
                 placeholderColor = ConsoleColor.DarkGreen;
             }
             Console.ForegroundColor = placeholderColor;
