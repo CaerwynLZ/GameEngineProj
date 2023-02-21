@@ -16,6 +16,7 @@ namespace FinalProject.Client
         Tile tile;
         TileMap tileMap;
         ConsoleColor placeholderColor;
+        TileObject check;
         public void RenderMenu()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -28,10 +29,6 @@ namespace FinalProject.Client
             {
                 RenderGameEngineOptions(options);
             }
-        }
-        public void RenderGame()
-        {
-
         }
         private void RenderGameEngineOptions(Dictionary<string, string> options)
         {
@@ -70,6 +67,7 @@ namespace FinalProject.Client
                     //Make selected tile red
                     placeholderColor = ConsoleColor.White;
                     PrintSelect();
+                    //Print object possible moves
                     PrintNextMoves();
                     Console.Write(tile.IconsSides[0]);
 
@@ -90,19 +88,20 @@ namespace FinalProject.Client
             }
         }
 
+
         private void PrintSelect()
         {
             if (tileMap.SelectedTile == tile)
             {
-                placeholderColor = ConsoleColor.Red;
+                placeholderColor = ConsoleColor.Magenta;
             }
             else if(tileMap.SelectedTile == null)
             {
                 placeholderColor = ConsoleColor.White;
             }
             Console.ForegroundColor = placeholderColor;
-
         }
+
         private void PrintNextMoves()
         {
             if (tileMap.NextMoves.Contains(tile) && tileMap.SelectedTile != null)

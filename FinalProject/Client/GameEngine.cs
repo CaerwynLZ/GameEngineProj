@@ -14,9 +14,10 @@ namespace FinalProject.Client
         Tile tile;
         public Actor actor;
         Actor enemy;
+        Renderer renderer;
         public GameEngine()
         {
-            Renderer = new Renderer();
+            renderer = new Renderer();
         }
         public void CreateBoard(int tileWidth, int tileHeight)
         {
@@ -30,8 +31,6 @@ namespace FinalProject.Client
             Actor2 = player2;
             Actor2.ID = 2;
 
-            actor = Actor1;
-            enemy = Actor2;
         }
         public void SetTurn()
         {
@@ -57,7 +56,7 @@ namespace FinalProject.Client
         }
         public void RenderMap()
         {
-            Renderer.RenderTileMap(TileMap);
+            renderer.RenderTileMap(TileMap);
         }
         public void AddPropertyOptions(string optionNumber, string describe)
         {
@@ -65,7 +64,7 @@ namespace FinalProject.Client
         }
         public void PrintOptions()
         {
-            Renderer.RenderOptions(PropertyOptions);
+            renderer.RenderOptions(PropertyOptions);
         }
         public bool ChooseTile(int x, int y)
         {
@@ -73,12 +72,8 @@ namespace FinalProject.Client
             tile = TileMap.SelectTile(x, y);
             if (tile.TileObject != null && actor.TileObjects.Contains(tile.TileObject))
             {
-                if (Check() == false)
-                {
-                    MoveableOptions(tile.TileObject);
-                }
-                else
-                    Console.WriteLine("Check");
+                TileMap.NextMoves.Clear();
+                MoveableOptions(tile.TileObject);
                 return true;
             }
             else
@@ -86,6 +81,20 @@ namespace FinalProject.Client
                 DeselectTile();
                 return false;
             }
+        }
+        
+        public bool Check()
+        {
+            for(int i = 0; i < enemy.TileObjects.Count; i++)
+            {
+                var enemyChec = enemy.TileObjects[i];
+                var enemyKing = enemyChec.GiveMoves(TileMap);
+                if (enemyKing != null)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void DeselectTile()
@@ -97,20 +106,7 @@ namespace FinalProject.Client
         {
             tileObject.GiveMoves(TileMap);
         }
-        public bool Check()
-        {
-            bool check=false;
-            for(int i=0; i<enemy.TileObjects.Count; i++)
-            {
-                var enemyObj= enemy.TileObjects[i];
-                check= enemyObj.GiveMoves(TileMap);
-                if(check==true)
-                {
-                    break;
-                }
-            }
-            return check;
-        }
+
         public void MoveTo(int x, int y)
         {
             var givenPos = new Position(x - 1, y - 1);

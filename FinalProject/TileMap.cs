@@ -23,7 +23,7 @@ namespace FinalProject
         // This will let you access Tiles while tiles can be private by TileMap[new Position(x, y)]
         public Tile this[Position position]
         {
-            get => Tiles[position.Y, position.X];
+            get=>  Tiles[position.Y, position.X];
             set => Tiles[position.Y, position.X] = value;
         }
 

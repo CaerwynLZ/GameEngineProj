@@ -29,7 +29,7 @@ internal class Program
             engine.SetUnit(new Bishop(p1, map[new Position(2, 0)]));
             engine.SetUnit(new Queen(p1, map[new Position(3, 0)]));
             engine.SetUnit(new King(p1, map[new Position(4, 0)]));
-            engine.SetUnit(new Bishop(p1, map[new Position(5, 0)]));
+            engine.SetUnit(new Bishop(p1, map[new Position(1, 4)]));
             engine.SetUnit(new Horse(p1, map[new Position(6, 0)]));
             engine.SetUnit(new Castle(p1, map[new Position(7, 0)]));
             engine.SetUnit(new Pawn(p1, map[new Position(0, 1)]));
@@ -53,7 +53,7 @@ internal class Program
             engine.SetUnit(new Pawn(p2, map[new Position(0, 6)]));
             engine.SetUnit(new Pawn(p2, map[new Position(1, 6)]));
             engine.SetUnit(new Pawn(p2, map[new Position(2, 6)]));
-            engine.SetUnit(new Pawn(p2, map[new Position(3, 6)]));
+            //engine.SetUnit(new Pawn(p2, map[new Position(3, 6)]));
             engine.SetUnit(new Pawn(p2, map[new Position(4, 6)]));
             engine.SetUnit(new Pawn(p2, map[new Position(5, 6)]));
             engine.SetUnit(new Pawn(p2, map[new Position(6, 6)]));
@@ -71,19 +71,21 @@ internal class Program
 
         void Battle()
         {
-            Console.WriteLine($"It's {engine.actor.Name} turn");
+            if(engine.Check())
+            {
+                Console.WriteLine("Check");
+            }
+            Console.WriteLine($"It's {engine.actor.Name}'s turn");
             switch (progress)
             {
                 case 0:
                     x = engine.GetConsoleInput<int>("Choose Tile X");
                     y = engine.GetConsoleInput<int>("Choose Tile Y");
-
                     bool available = engine.ChooseTile(x, y);
                     if (available)
                         progress++;
                     else
                         progress = 0;
-
                     Update();
                     break;
                 case 1:

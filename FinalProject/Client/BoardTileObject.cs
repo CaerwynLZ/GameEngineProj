@@ -5,16 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using FinalProject.Engine;
 using FinalProject.Engine.Abstracts;
+using FinalProject.Interfaces;
 
 namespace FinalProject.Client
 {
     public class Pawn : TileObject
     {
-        TileMap tilemap;
-        List<Position> GiveBehaveMove=new List<Position>();
         int dirrection;
         Position startPos;
-        bool KingHold;
         public Pawn(Actor owner,Tile currentPos)
         {
             this.Owner = owner;
@@ -22,69 +20,123 @@ namespace FinalProject.Client
             this.Tile = currentPos;
             this.Position = Tile.Position;
             this.ObjectState = State.Start;
+            this.MoveSets = new List<List<Position>>();
             this.Name = "Pawn";
             this.Icon = "P";
 
-
+            
             DealDirrection();
-
+            AddMoveSet(new Position(0, 1));
+            AddMoveSet(new Position(0, 2));
+            AddMoveSet(new Position(-1, 1));
+            AddMoveSet(new Position(1, 1));
             currentPos.TileObject = this;
             startPos = Position;
         }
-        public override bool GiveMoves(TileMap TileMap)
+
+        public override TileObject GiveMoves(TileMap TileMap)
         {
-            KingHold = false;
-            tilemap= TileMap;
-            if (startPos.Equals(Position))
+            for(int i=0; i<MoveSets.Count; i++)
             {
-                ObjectState = State.Start;
-            }
-            else
-                ObjectState = State.Normal;
-
-            switch (ObjectState)
-            {
-                case State.Start:
-                    AddMoveSet(new Position(0, 1));
-                    AddMoveSet(new Position(0, 2));
-                    break;
-                case State.Normal:
-                    GiveBehaveMove.Clear();
-                    AddMoveSet(new Position(0, 1));
-                    break;
-                default:
-                    break;
-            }
-
-            var right = new Position(1, 1*dirrection) + this.Position;
-            EnemyDetection(right);
-            var left= new Position(-1, 1*dirrection) + this.Position;
-            EnemyDetection(left);
-
-            for(int i = 0; i < GiveBehaveMove.Count; i++)
-            {
-                var position= GiveBehaveMove[i]+Position;
-                TileMap.NextMoves.Add(TileMap[position]);
-            }
-            return KingHold;
-        
-        }
-        private void EnemyDetection(Position pos)
-        {
-            if (tilemap[pos].TileObject!=null)
-            {
-                var enemy= tilemap[pos].TileObject;
-                if(!enemy.Owner.Equals(this.Owner))
+                for(int j=0; j < MoveSets[i].Count; j++)
                 {
-                    if (enemy.Name == "King")
+                    Position pos = MoveSets[i][j];
+                    if(pos.X==0 && pos.Y!=0)
                     {
-                        KingHold = true;
+                        if((pos.Y==-2 || pos.Y==2) && !startPos.Equals(Position))
+                        {
+                            break;
+                        }
+                        Position nexPos = pos + Position;
+                        if (InBounds(nexPos, TileMap))
+                        {
+                            if (TileMap[nexPos].TileObject == null)
+                            {
+                                TileMap.NextMoves.Add(TileMap[nexPos]);
+                            }
+                        }
+                        else
+                            break;
                     }
-                    tilemap.NextMoves.Add(tilemap[pos]);
+                    else
+                    {
+                        Position nexPos = pos + Position;
+                        if (InBounds(nexPos, TileMap))
+                        {
+                            TileObject enemy = TileMap[nexPos].TileObject;
+                            if (enemy != null && !enemy.Owner.Equals(this.Owner))
+                            {
+                                TileMap.NextMoves.Add(TileMap[nexPos]);
+                                if (enemy.Name == "King")
+                                {
+                                    return enemy;
+                                }
+                            }
+                            else
+                                break;
+                        }
+                    }
                 }
             }
+            return null;
         }
-        
+        //public override bool GiveMoves(TileMap TileMap)
+        //{
+        //    KingHold = false;
+        //    tilemap= TileMap;
+        //    if (startPos.Equals(Position))
+        //    {
+        //        ObjectState = State.Start;
+        //    }
+        //    else
+        //        ObjectState = State.Normal;
+
+        //    switch (ObjectState)
+        //    {
+        //        case State.Start:
+        //            AddMoveSet(new Position(0, 1));
+        //            AddMoveSet(new Position(0, 2));
+        //            break;
+        //        case State.Normal:
+        //            GiveBehaveMove.Clear();
+        //            AddMoveSet(new Position(0, 1));
+        //            break;
+        //        default:
+        //            break;
+        //    }
+
+        //    var right = new Position(1, 1*dirrection) + this.Position;
+        //    EnemyDetection(right);
+        //    var left= new Position(-1, 1*dirrection) + this.Position;
+        //    EnemyDetection(left);
+
+        //    for(int i = 0; i < GiveBehaveMove.Count; i++)
+        //    {
+        //        var position= GiveBehaveMove[i]+Position;
+        //        if (InBounds(position, TileMap))
+        //        {
+        //            TileMap.NextMoves.Add(TileMap[position]);
+        //        }
+        //    }
+        //    return KingHold;
+
+        //}
+        //private void EnemyDetection(Position pos)
+        //{
+        //    if (tilemap[pos].TileObject!=null)
+        //    {
+        //        var enemy= tilemap[pos].TileObject;
+        //        if(!enemy.Owner.Equals(this.Owner))
+        //        {
+        //            if (enemy.Name == "King")
+        //            {
+        //                KingHold = true;
+        //            }
+        //            tilemap.NextMoves.Add(tilemap[pos]);
+        //        }
+        //    }
+        //}
+
         private void DealDirrection()
         {
             if(this.Owner.ID==1)
@@ -97,8 +149,11 @@ namespace FinalProject.Client
 
         public override void AddMoveSet(Position moveSet)
         {
+            List<Position> positions= new List<Position>();
             moveSet = new Position(moveSet.X, moveSet.Y * dirrection);
-            GiveBehaveMove.Add(moveSet);
+            positions.Add(moveSet);
+            MoveSets.Add(positions);
+
         }
 
     }

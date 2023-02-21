@@ -45,14 +45,14 @@ namespace FinalProject.Engine.Abstracts
             this.Tile.TileObject = null;
         }
 
-        public virtual bool GiveMoves(TileMap TileMap)
+        public virtual TileObject GiveMoves(TileMap TileMap)
         {
             for (int i = 0; i < this.MoveSets.Count; i++)
             {
                 for (int j = 0; j < this.MoveSets[i].Count; j++)
                 {
                     Position pos = this.MoveSets[i][j] + this.Position;
-                    if (pos.X >= 0 && pos.X < TileMap.Width && pos.Y >= 0 && pos.Y < TileMap.Height)
+                    if (InBounds(pos,TileMap))
                     {
                         var enemyObj = TileMap[pos].TileObject;
                         if (enemyObj == null)
@@ -66,7 +66,7 @@ namespace FinalProject.Engine.Abstracts
                                 if (enemyObj.Name == "King")
                                 {
                                     TileMap.NextMoves.Add(TileMap[pos]);
-                                    return true;
+                                    return enemyObj;
                                 }
                                 else
                                 {
@@ -82,7 +82,12 @@ namespace FinalProject.Engine.Abstracts
                     }
                 }
             }
-            return false;
+            return null;
+        }
+
+        public virtual bool InBounds(Position pos, TileMap TileMap)
+        {
+            return pos.X >= 0 && pos.X < TileMap.Width && pos.Y >= 0 && pos.Y < TileMap.Height;
         }
         public enum State { Start, Normal, Attack}
 
