@@ -10,28 +10,28 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Actor p1= new Actor("Sam",ConsoleColor.Red);
-        Actor p2 = new Actor("Layan", ConsoleColor.Cyan);
-        GameEngine engine = new GameEngine();
+        Actor p1= new("Sam",ConsoleColor.Red);
+        Actor p2 = new("Layan", ConsoleColor.Cyan);
+        GameEngine engine = new();
         int x, y;
-        int progress;
+        int _progress;
         Awake();
 
         void Awake()
         {
-            progress = 0;
+            _progress = 0;
 
             engine.CreateBoard(8, 8);
             engine.SetPlayers(p1, p2);
             var map = engine.TileMap;
-            engine.SetUnit(new Castle(p1, map[new Position(0, 0)]));
-            engine.SetUnit(new Horse(p1, map[new Position(1, 0)]));
+            engine.SetUnit(new Rook(p1, map[new Position(0, 0)]));
+            engine.SetUnit(new Knight(p1, map[new Position(1, 0)]));
             engine.SetUnit(new Bishop(p1, map[new Position(2, 0)]));
             engine.SetUnit(new Queen(p1, map[new Position(7, 4)]));
             engine.SetUnit(new King(p1, map[new Position(4, 0)]));
             engine.SetUnit(new Bishop(p1, map[new Position(1, 4)]));
-            engine.SetUnit(new Horse(p1, map[new Position(6, 0)]));
-            engine.SetUnit(new Castle(p1, map[new Position(7, 0)]));
+            engine.SetUnit(new Knight(p1, map[new Position(6, 0)]));
+            engine.SetUnit(new Rook(p1, map[new Position(7, 0)]));
             engine.SetUnit(new Pawn(p1, map[new Position(0, 1)]));
             engine.SetUnit(new Pawn(p1, map[new Position(1, 1)]));
             engine.SetUnit(new Pawn(p1, map[new Position(2, 1)]));
@@ -42,14 +42,14 @@ internal class Program
             engine.SetUnit(new Pawn(p1, map[new Position(7, 1)]));
 
 
-            engine.SetUnit(new Castle(p2, map[new Position(0, 7)]));
-            engine.SetUnit(new Horse(p2, map[new Position(1, 7)]));
+            engine.SetUnit(new Rook(p2, map[new Position(0, 7)]));
+            engine.SetUnit(new Knight(p2, map[new Position(1, 7)]));
             engine.SetUnit(new Bishop(p2, map[new Position(2, 7)]));
             engine.SetUnit(new Queen(p2, map[new Position(3, 7)]));
             engine.SetUnit(new King(p2, map[new Position(4, 7)]));
             engine.SetUnit(new Bishop(p2, map[new Position(5, 7)]));
-            engine.SetUnit(new Horse(p2, map[new Position(6, 7)]));
-            engine.SetUnit(new Castle(p2, map[new Position(7, 7)]));
+            engine.SetUnit(new Knight(p2, map[new Position(6, 7)]));
+            engine.SetUnit(new Rook(p2, map[new Position(7, 7)]));
             engine.SetUnit(new Pawn(p2, map[new Position(0, 6)]));
             engine.SetUnit(new Pawn(p2, map[new Position(1, 6)]));
             engine.SetUnit(new Pawn(p2, map[new Position(2, 6)]));
@@ -77,7 +77,9 @@ internal class Program
             }
             else
                 engine.TileMap.NextMoves.Clear();
+            return true;
         }
+
         void Battle()
         {
 
@@ -89,16 +91,16 @@ internal class Program
             else
                 engine.TileMap.NextMoves.Clear();
 
-            switch (progress)
+            switch (_progress)
             {
                 case 0:
                     x = engine.GetConsoleInput<int>("Choose Tile X");
                     y = engine.GetConsoleInput<int>("Choose Tile Y");
                     bool available = engine.ChooseTile(x, y);
                     if (available)
-                        progress++;
+                        _progress++;
                     else
-                        progress = 0;
+                        _progress = 0;
                     Update();
                     break;
                 case 1:
@@ -110,14 +112,14 @@ internal class Program
                     {
                         case "1":
                             engine.DeselectTile();
-                            progress = 0;
+                            _progress = 0;
                             Update();
                             break;
                         case "2":
                             x = engine.GetConsoleInput<int>("Choose Where To Move X");
                             y = engine.GetConsoleInput<int>("Choose Where To Move Y");
                             engine.MoveTo(x, y);
-                            progress = 0;
+                            _progress = 0;
                             PassTurn();
                             Update();
                             break;
@@ -125,15 +127,15 @@ internal class Program
             
                     break;
                     default:
-                    progress=0;
+                    _progress=0;
                     Update();
                     break;
             }
         }
+
         void PassTurn()
         {
             engine.SetTurn();
         }
-
     }
 }

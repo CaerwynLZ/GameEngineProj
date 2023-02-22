@@ -9,7 +9,6 @@ namespace FinalProject.Interfaces
     public interface IRenderer
     {
         public void RenderMenu();
-        //public void RenderGameEngine(GameEngineCore gameEngine, Dictionary<string, string> options);
         public void RenderOptions(Dictionary<string, string> options);
         public void RenderTileMap(TileMap tileMap);
     }

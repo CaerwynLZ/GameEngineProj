@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FinalProject.Client
 {
-    public class Horse : TileObject
+    public class Knight : TileObject
     {
-        public Horse(Actor owner, Tile currentPos)
+        public Knight(Actor owner, Tile currentPos)
         {
             this.Owner = owner;
             this.Color = owner.Color;

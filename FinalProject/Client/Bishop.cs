@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Prometheus;
 
 namespace FinalProject.Client
 {
@@ -27,6 +28,7 @@ namespace FinalProject.Client
 
             currentPos.TileObject = this;
         }
+
         public override void AddMoveSet(Position moveSet)
         {
             var absX=MathF.Abs(moveSet.X);

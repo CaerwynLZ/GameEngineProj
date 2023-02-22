@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FinalProject.Client
 {
-    internal class Castle : TileObject
+    internal class Rook : TileObject
     {
-        public Castle(Actor owner, Tile currentPos)
+        public Rook(Actor owner, Tile currentPos)
         {
             Owner = owner;
             Color = owner.Color;
@@ -27,6 +27,7 @@ namespace FinalProject.Client
 
             currentPos.TileObject = this;
         }
+
         public override void AddMoveSet(Position moveSet)
         {
             var GiveBehaveMove = new List<Position>();

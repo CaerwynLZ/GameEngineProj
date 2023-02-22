@@ -11,20 +11,23 @@ namespace FinalProject.Client
 {
     public class GameEngine : GameEngineCore
     {
-        Tile tile;
+        Tile _tile;
+        Actor _enemy;
+        Renderer _renderer;
+        List<TileObject> _objectsCheck;
         public Actor actor;
-        Actor enemy;
-        Renderer renderer;
-        List<TileObject> objectsCheck;
+
         public GameEngine()
         {
-            renderer = new Renderer();
-            objectsCheck = new List<TileObject>();
+            _renderer = new Renderer();
+            _objectsCheck = new List<TileObject>();
         }
+
         public void CreateBoard(int tileWidth, int tileHeight)
         {
             TileMap = new TileMap(tileWidth, tileHeight);
         }
+
         public void SetPlayers(Actor player1, Actor player2)
         {
             Actor1 = player1;
@@ -34,19 +37,25 @@ namespace FinalProject.Client
             Actor2.ID = 2;
 
         }
+
         public void SetTurn()
         {
             if (actor == Actor2)
             {
                 actor = Actor1;
-                enemy = Actor2;
+                _enemy = Actor2;
             }
             else
             {
                 actor = Actor2;
-                enemy = Actor1;
+                _enemy = Actor1;
             }
         }
+
+        /// <summary>
+        /// Adding objects to whatever player you want, so each one has their own sets
+        /// </summary>
+        /// <param name="tileObject"></param>
         public void SetUnit(TileObject tileObject)
         {
             if (tileObject.Owner == Actor1)
@@ -56,26 +65,35 @@ namespace FinalProject.Client
             else if (tileObject.Owner == Actor2)
                 Actor2.TileObjects.Add(tileObject);
         }
+
         public void RenderMap()
         {
-            renderer.RenderTileMap(TileMap);
+            _renderer.RenderTileMap(TileMap);
         }
+
+        /// <summary>
+        /// adding number and sentence we want to show, that will be printed through RenderGameEngineOptions
+        /// </summary>
+        /// <param name="optionNumber"></param>
+        /// <param name="describe"></param>
         public void AddPropertyOptions(string optionNumber, string describe)
         {
             PropertyOptions.Add(optionNumber, describe);
         }
+
         public void PrintOptions()
         {
-            renderer.RenderOptions(PropertyOptions);
+            _renderer.RenderOptions(PropertyOptions);
         }
+
         public bool ChooseTile(int x, int y)
         {
 
             TileMap.NextMoves.Clear();
-            tile = TileMap.SelectTile(x, y);
-            if (tile.TileObject != null && actor.TileObjects.Contains(tile.TileObject))
+            _tile = TileMap.SelectTile(x, y);
+            if (_tile.TileObject != null && actor.TileObjects.Contains(_tile.TileObject))
             {
-                return MoveableOptions(tile.TileObject);
+                return MoveableOptionsWhileChecked(_tile.TileObject);
             }
             else
             {
@@ -86,7 +104,7 @@ namespace FinalProject.Client
         
         public bool Check()
         {
-            objectsCheck.Clear();
+            _objectsCheck.Clear();
             if (ActorCheck(Actor1))
             {
                 return true;
@@ -98,10 +116,17 @@ namespace FinalProject.Client
             else
                 return false;
         }
+
         public bool CheckMate()
         {
             return false;
         }
+
+        /// <summary>
+        /// Sees which player is Checking the king
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         private bool ActorCheck(Actor player)
         {
             for (int i = 0; i < player.TileObjects.Count; i++)
@@ -110,11 +135,11 @@ namespace FinalProject.Client
                 var enemyKing = enemyCheck.GiveMoves(TileMap);
                 if (enemyKing != null)
                 {
-                    objectsCheck.Add(enemyCheck);
+                    _objectsCheck.Add(enemyCheck);
                 }
             }
 
-            if(objectsCheck.Count > 0)
+            if(_objectsCheck.Count > 0)
             {
                 return true;
             }
@@ -127,27 +152,34 @@ namespace FinalProject.Client
             TileMap.SelectedTile = null;
             PropertyOptions.Clear();
         }
-        private bool MoveableOptions(TileObject tileObject)
-        {
 
+        /// <summary>
+        /// looks for how many objects are doing Check on king then checks if an object that you selected 
+        /// is able to move in the position of the object's path that's checking the king
+        /// </summary>
+        /// <param name="tileObject"></param>
+        /// <returns></returns>
+        private bool MoveableOptionsWhileChecked(TileObject tileObject)
+        {
             tileObject.GiveMoves(TileMap);
-            List<Tile> moveToCheck = new List<Tile>();
-            if (objectsCheck.Count > 0)
+            List<Tile> blockCheckPos = new List<Tile>();
+            if (_objectsCheck.Count > 0)
             {
-                for (int j = 0; j < objectsCheck.Count; j++)
+                for (int j = 0; j < _objectsCheck.Count; j++)
                 {
                     for (int i = 0; i < TileMap.NextMoves.Count; i++)
                     {
                         Position pos = TileMap.NextMoves[i].Position;
-                        if (InCheckPosition(pos, objectsCheck[j]))
+                        if (InCheckPosition(pos, _objectsCheck[j]))
                         {
-                            moveToCheck.Add(TileMap.NextMoves[i]);
+                            blockCheckPos.Add(TileMap.NextMoves[i]);
                         }
                     }
-                }
-                if (moveToCheck.Count > 0)
+                } 
+
+                if (blockCheckPos.Count > 0)
                 {
-                    TileMap.NextMoves= moveToCheck;
+                    TileMap.NextMoves= blockCheckPos;
                     return true;
                 }
                 else
@@ -162,6 +194,13 @@ namespace FinalProject.Client
             }
 
         }
+
+        /// <summary>
+        /// implementing a way to check if a piece can go to where a piece is checking a king
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="enemyCheck"></param>
+        /// <returns></returns>
         private bool InCheckPosition(Position position, TileObject enemyCheck)
         {
             for (int j = 0; j < enemyCheck.CheckablePosition.Count; j++)
@@ -175,6 +214,11 @@ namespace FinalProject.Client
             return false;
         }
 
+        /// <summary>
+        /// Checks if object can go to the chosen place, and if its a piece they can eat, otherwise Deselect
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void MoveTo(int x, int y)
         {
             var givenPos = new Position(x - 1, y - 1);
@@ -184,7 +228,7 @@ namespace FinalProject.Client
                 {
                     EatObject(TileMap[givenPos], TileMap[givenPos].TileObject.Owner);
                 }
-                tile.TileObject.SetTile(TileMap[givenPos]);
+                _tile.TileObject.SetTile(TileMap[givenPos]);
                 DeselectTile();
             }
             else
@@ -192,11 +236,13 @@ namespace FinalProject.Client
                 DeselectTile();
             }
         }
+        
         private void EatObject(Tile eaten, Actor actor)
         {
             actor.TileObjects.Remove(eaten.TileObject);
             eaten.TileObject = null;
         }
+
         public void AddMenuOptions(string optionNumber, string describe)
         {
             Options.Add(optionNumber, describe);
@@ -218,21 +264,5 @@ namespace FinalProject.Client
                 return false;
             }
         }
-
-
-        //public void AddPropertyOptions(string optionNumber, string desc)
-        //{
-        //    this.PropertyOptions.Add("1", "Add Movement Set to TileObject");
-        //}
-        //public void AddMenuOptions()
-        //{
-        //    this.Options.Add("1", "Select a tile space (x , y)");
-        //    this.Options.Add("2", "Deselect the current selection");
-        //    this.Options.Add("3", "Add a TileObject on selection");
-        //    this.Options.Add("4", "Delete a TileObject on selection");
-        //    this.Options.Add("5", "Add Property to TileObject");
-        //    this.Options.Add("6", "Place a Tile on a empty space or overwrite it");
-        //}
-
     }
 }

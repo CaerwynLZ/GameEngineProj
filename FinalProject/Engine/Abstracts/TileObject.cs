@@ -17,11 +17,15 @@ namespace FinalProject.Engine.Abstracts
         public virtual string Name { get; set; }
         public virtual object Icon { get; set; }
         public virtual object Color { get; set; }
-        public virtual State ObjectState { get; set; }
         public virtual Tile Tile { get; set; }
         public Action Move { get; set; }
         public virtual List<List<Position>> MoveSets { get; set; } 
         public virtual List<Position> CheckablePosition { get; set; }
+
+        /// <summary>
+        /// Adds positions for ListPosition depending on what each piece can do/move to
+        /// </summary>
+        /// <param name="moveSet"></param>
         public virtual void AddMoveSet(Position moveSet) { }
 
         public virtual TileObject Clone()
@@ -34,6 +38,7 @@ namespace FinalProject.Engine.Abstracts
             u.Owner = Owner;
             return u;
         }
+
         public virtual void SetTile(Tile tile)
         {
             DeleteTile();
@@ -41,11 +46,17 @@ namespace FinalProject.Engine.Abstracts
             this.Position = tile.Position;
             tile.TileObject = this;
         }
+
         public virtual void DeleteTile()
         {
             this.Tile.TileObject = null;
         }
 
+        /// <summary>
+        /// Gives tlemaps their possible movements and also sees if king is in check or not
+        /// </summary>
+        /// <param name="TileMap"></param>
+        /// <returns></returns>
         public virtual TileObject GiveMoves(TileMap TileMap)
         {
             CheckablePosition= new List<Position>();
@@ -87,6 +98,7 @@ namespace FinalProject.Engine.Abstracts
             }
             return null;
         }
+
         public void CheckPositions(List<Position> list, TileMap tileMap)
         {
             for(int i=0; i<list.Count; i++) 
@@ -99,11 +111,15 @@ namespace FinalProject.Engine.Abstracts
             }
         }
 
+        /// <summary>
+        /// is the position you can go to is in the map 
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="TileMap"></param>
+        /// <returns></returns>
         public virtual bool InBounds(Position pos, TileMap TileMap)
         {
             return pos.X >= 0 && pos.X < TileMap.Width && pos.Y >= 0 && pos.Y < TileMap.Height;
         }
-        public enum State { Start, Normal, Attack}
-
     }
 }

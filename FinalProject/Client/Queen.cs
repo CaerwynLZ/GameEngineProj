@@ -33,6 +33,7 @@ namespace FinalProject.Client
 
             currentPos.TileObject = this;
         }
+
         public override void AddMoveSet(Position moveSet)
         {
             var GiveBehaveMove = new List<Position>();

@@ -36,6 +36,12 @@ namespace FinalProject.Engine
             return X == position.X && Y == position.Y;
         }
 
+        /// <summary>
+        /// instead of combining x and y everytime manually, this is a shortcut
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static Position operator +(Position a, Position b)
         {
             return new Position(a.X + b.X, a.Y + b.Y);

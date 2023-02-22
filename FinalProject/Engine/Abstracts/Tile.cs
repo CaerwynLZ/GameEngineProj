@@ -15,7 +15,5 @@ namespace FinalProject.Engine.Abstracts
         public virtual string Icon { get; set; }
         public virtual string[] IconsSides { get; set; }
         public virtual TileObject? TileObject { get; set; }
-
     }
-
 }

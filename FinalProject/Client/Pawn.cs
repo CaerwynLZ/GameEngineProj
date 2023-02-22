@@ -11,19 +11,17 @@ namespace FinalProject.Client
 {
     public class Pawn : TileObject
     {
-        int dirrection;
-        Position startPos;
+        int _dirrection;
+        readonly Position _startPos;
         public Pawn(Actor owner,Tile currentPos)
         {
             this.Owner = owner;
             this.Color = owner.Color;
             this.Tile = currentPos;
             this.Position = Tile.Position;
-            this.ObjectState = State.Start;
             this.MoveSets = new List<List<Position>>();
             this.Name = "Pawn";
             this.Icon = "P";
-
             
             DealDirrection();
             AddMoveSet(new Position(0, 1));
@@ -31,7 +29,7 @@ namespace FinalProject.Client
             AddMoveSet(new Position(-1, 1));
             AddMoveSet(new Position(1, 1));
             currentPos.TileObject = this;
-            startPos = Position;
+            _startPos = Position;
         }
 
         public override TileObject GiveMoves(TileMap TileMap)
@@ -43,7 +41,7 @@ namespace FinalProject.Client
                     Position pos = MoveSets[i][j];
                     if(pos.X==0 && pos.Y!=0)
                     {
-                        if((pos.Y==-2 || pos.Y==2) && !startPos.Equals(Position))
+                        if((pos.Y==-2 || pos.Y==2) && !_startPos.Equals(Position))
                         {
                             break;
                         }
@@ -141,16 +139,16 @@ namespace FinalProject.Client
         {
             if(this.Owner.ID==1)
             {
-                dirrection= 1;
+                _dirrection= 1;
             }
             else
-                dirrection=-1;
+                _dirrection=-1;
         }
 
         public override void AddMoveSet(Position moveSet)
         {
             List<Position> positions= new List<Position>();
-            moveSet = new Position(moveSet.X, moveSet.Y * dirrection);
+            moveSet = new Position(moveSet.X, moveSet.Y * _dirrection);
             positions.Add(moveSet);
             MoveSets.Add(positions);
 
