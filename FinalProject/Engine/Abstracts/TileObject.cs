@@ -21,6 +21,7 @@ namespace FinalProject.Engine.Abstracts
         public virtual Tile Tile { get; set; }
         public Action Move { get; set; }
         public virtual List<List<Position>> MoveSets { get; set; } 
+        public virtual List<Position> CheckablePosition { get; set; }
         public virtual void AddMoveSet(Position moveSet) { }
 
         public virtual TileObject Clone()
@@ -47,6 +48,7 @@ namespace FinalProject.Engine.Abstracts
 
         public virtual TileObject GiveMoves(TileMap TileMap)
         {
+            CheckablePosition= new List<Position>();
             for (int i = 0; i < this.MoveSets.Count; i++)
             {
                 for (int j = 0; j < this.MoveSets[i].Count; j++)
@@ -66,6 +68,7 @@ namespace FinalProject.Engine.Abstracts
                                 if (enemyObj.Name == "King")
                                 {
                                     TileMap.NextMoves.Add(TileMap[pos]);
+                                    CheckPositions(this.MoveSets[i], TileMap);
                                     return enemyObj;
                                 }
                                 else
@@ -83,6 +86,17 @@ namespace FinalProject.Engine.Abstracts
                 }
             }
             return null;
+        }
+        public void CheckPositions(List<Position> list, TileMap tileMap)
+        {
+            for(int i=0; i<list.Count; i++) 
+            {
+                Position pos= list[i]+Position;
+                if (InBounds(pos, tileMap))
+                {
+                    CheckablePosition.Add(pos);
+                }
+            }
         }
 
         public virtual bool InBounds(Position pos, TileMap TileMap)

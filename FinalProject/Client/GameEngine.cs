@@ -125,20 +125,32 @@ namespace FinalProject.Client
         }
         private bool MoveableOptions(TileObject tileObject)
         {
+
             tileObject.GiveMoves(TileMap);
+            List<Tile> moveToCheck = new List<Tile>();
             if (objectsCheck.Count > 0)
             {
-                for (int i = 0; i < TileMap.NextMoves.Count; i++)
+                for (int j = 0; j < objectsCheck.Count; j++)
                 {
-                    Position pos = TileMap.NextMoves[i].Position;
-                    if (InCheckPosition(pos))
+                    for (int i = 0; i < TileMap.NextMoves.Count; i++)
                     {
-                        return true;
+                        Position pos = TileMap.NextMoves[i].Position;
+                        if (InCheckPosition(pos, objectsCheck[j]))
+                        {
+                            moveToCheck.Add(TileMap.NextMoves[i]);
+                        }
                     }
-
                 }
-                DeselectTile();
-                return false;
+                if (moveToCheck.Count > 0)
+                {
+                    TileMap.NextMoves= moveToCheck;
+                    return true;
+                }
+                else
+                {
+                    DeselectTile();
+                    return false;
+                }
             }
             else
             {
@@ -146,21 +158,14 @@ namespace FinalProject.Client
             }
 
         }
-        private bool InCheckPosition(Position position)
+        private bool InCheckPosition(Position position, TileObject enemyCheck)
         {
-            List<Position> positions= new List<Position>();
-            for (int i = 0; i < objectsCheck.Count; i++)
+            for (int j = 0; j < enemyCheck.CheckablePosition.Count; j++)
             {
-                for(int j=0; j < objectsCheck[i].MoveSets.Count; j++)
+                Position p = enemyCheck.CheckablePosition[j];
+                if (position.Equals(p))
                 {
-                    for (int z = 0; z < objectsCheck[i].MoveSets[j].Count; z++)
-                    {
-                        positions.Add(objectsCheck[i].MoveSets[j][z]+objectsCheck[i].Position);
-                    }
-                        if (positions.Contains(position))
-                        {
-                            return true;
-                        }
+                    return true;
                 }
             }
             return false;

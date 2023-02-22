@@ -27,7 +27,7 @@ internal class Program
             engine.SetUnit(new Castle(p1, map[new Position(0, 0)]));
             engine.SetUnit(new Horse(p1, map[new Position(1, 0)]));
             engine.SetUnit(new Bishop(p1, map[new Position(2, 0)]));
-            engine.SetUnit(new Queen(p1, map[new Position(3, 0)]));
+            engine.SetUnit(new Queen(p1, map[new Position(7, 4)]));
             engine.SetUnit(new King(p1, map[new Position(4, 0)]));
             engine.SetUnit(new Bishop(p1, map[new Position(1, 4)]));
             engine.SetUnit(new Horse(p1, map[new Position(6, 0)]));
@@ -53,10 +53,10 @@ internal class Program
             engine.SetUnit(new Pawn(p2, map[new Position(0, 6)]));
             engine.SetUnit(new Pawn(p2, map[new Position(1, 6)]));
             engine.SetUnit(new Pawn(p2, map[new Position(2, 6)]));
-            //engine.SetUnit(new Pawn(p2, map[new Position(3, 6)]));
+            engine.SetUnit(new Pawn(p2, map[new Position(3, 6)]));
             engine.SetUnit(new Pawn(p2, map[new Position(4, 6)]));
-            engine.SetUnit(new Pawn(p2, map[new Position(5, 6)]));
-            engine.SetUnit(new Pawn(p2, map[new Position(6, 6)]));
+            //engine.SetUnit(new Pawn(p2, map[new Position(5, 6)]));
+            //engine.SetUnit(new Pawn(p2, map[new Position(6, 6)]));
             engine.SetUnit(new Pawn(p2, map[new Position(7, 6)]));
 
             PassTurn();
