@@ -51,7 +51,6 @@ namespace FinalProject.Client
             {
                 for (int i = 1; i <= moveSet.Y; i++)
                 {
-
                     GiveBehaveMove.Add(new Position(0, i));
                 }
                 MoveSets.Add(GiveBehaveMove);

@@ -58,6 +58,7 @@ namespace FinalProject.Engine.Abstracts
         /// <returns></returns>
         public virtual TileObject GiveMoves(TileMap TileMap)
         {
+            TileMap.NextMoves.Clear();
             CheckablePosition= new List<Position>();
             for (int i = 0; i < this.MoveSets.Count; i++)
             {

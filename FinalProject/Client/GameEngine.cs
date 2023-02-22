@@ -13,6 +13,7 @@ namespace FinalProject.Client
     {
         Tile _tile;
         Actor _enemy;
+        Actor _playerInCheck;
         readonly Renderer _renderer;
         readonly List<TileObject> _objectsCheck;
         public Actor actor;
@@ -40,15 +41,15 @@ namespace FinalProject.Client
 
         public void SetTurn()
         {
-            if (actor == Actor2)
-            {
-                actor = Actor1;
-                _enemy = Actor2;
-            }
-            else
+            if (actor == Actor1)
             {
                 actor = Actor2;
                 _enemy = Actor1;
+            }
+            else
+            {
+                actor = Actor1;
+                _enemy = Actor2;
             }
         }
 
@@ -88,12 +89,18 @@ namespace FinalProject.Client
 
         public bool ChooseTile(int x, int y)
         {
-
             TileMap.NextMoves.Clear();
             _tile = TileMap.SelectTile(x, y);
             if (_tile.TileObject != null && actor.TileObjects.Contains(_tile.TileObject))
             {
-                return MoveableOptionsWhileChecked(_tile.TileObject);
+                if (MoveableOptions(_tile.TileObject))
+                    return true;
+                else
+                {
+                    DeselectTile();
+                    return false;
+                }
+
             }
             else
             {
@@ -107,10 +114,12 @@ namespace FinalProject.Client
             _objectsCheck.Clear();
             if (ActorCheck(Actor1))
             {
+                _playerInCheck = Actor2;
                 return true;
             }
             else if (ActorCheck(Actor2))
             {
+                _playerInCheck = Actor1;
                 return true;
             }
             else
@@ -119,7 +128,20 @@ namespace FinalProject.Client
 
         public bool CheckMate()
         {
-            return false;
+            for(int i = 0; i < _playerInCheck.TileObjects.Count; i++)
+            {
+                TileObject tileObject = _playerInCheck.TileObjects[i];
+                if(tileObject.Name=="King")
+                {
+                    continue;
+                }
+                if(MoveableOptions(tileObject))
+                {
+                    return false;
+                }
+
+            }
+            return true;
         }
 
         /// <summary>
@@ -159,7 +181,7 @@ namespace FinalProject.Client
         /// </summary>
         /// <param name="tileObject"></param>
         /// <returns></returns>
-        private bool MoveableOptionsWhileChecked(TileObject tileObject)
+        private bool MoveableOptions(TileObject tileObject)
         {
             tileObject.GiveMoves(TileMap);
             List<Tile> blockCheckPos = new List<Tile>();
@@ -176,7 +198,6 @@ namespace FinalProject.Client
                         }
                     }
                 } 
-
                 if (blockCheckPos.Count > 0)
                 {
                     TileMap.NextMoves= blockCheckPos;
@@ -221,6 +242,8 @@ namespace FinalProject.Client
         /// <param name="y"></param>
         public void MoveTo(int x, int y)
         {
+            TileMap.NextMoves.Clear();
+            _tile.TileObject.GiveMoves(TileMap);
             var givenPos = new Position(x - 1, y - 1);
             if (TileMap.NextMoves.Contains(TileMap[givenPos]))
             {
