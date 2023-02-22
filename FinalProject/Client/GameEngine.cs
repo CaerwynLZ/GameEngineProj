@@ -41,15 +41,15 @@ namespace FinalProject.Client
 
         public void SetTurn()
         {
-            if (actor == Actor1)
-            {
-                actor = Actor2;
-                _enemy = Actor1;
-            }
-            else
+            if (actor == Actor2)
             {
                 actor = Actor1;
                 _enemy = Actor2;
+            }
+            else
+            {
+                actor = Actor2;
+                _enemy = Actor1;
             }
         }
 
@@ -109,21 +109,21 @@ namespace FinalProject.Client
             }
         }
         
-        public bool Check()
+        public string Check()
         {
             _objectsCheck.Clear();
             if (ActorCheck(Actor1))
             {
                 _playerInCheck = Actor2;
-                return true;
+                return Actor1.Name;
             }
             else if (ActorCheck(Actor2))
             {
                 _playerInCheck = Actor1;
-                return true;
+                return Actor2.Name;
             }
             else
-                return false;
+                return "";
         }
 
         public bool CheckMate()

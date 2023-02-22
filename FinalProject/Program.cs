@@ -15,6 +15,7 @@ internal class Program
         GameEngine engine = new();
         int x, y;
         int _progress;
+        string _win;
         Awake();
 
         void Awake()
@@ -68,7 +69,7 @@ internal class Program
             engine.RenderMap();
             if(WinCondition())
             {
-                Win();
+                Win(_win);
             }
             else
                 Battle();
@@ -76,7 +77,8 @@ internal class Program
 
         bool WinCondition()
         {
-            if (engine.Check())
+            _win = engine.Check();
+            if (_win!="")
             {
                 if (engine.CheckMate() == true)
                 {
@@ -99,7 +101,7 @@ internal class Program
                 case 0:
                     x = engine.GetConsoleInput<int>("Choose Tile X");
                     y = engine.GetConsoleInput<int>("Choose Tile Y");
-                    if (x < engine.TileMap.Width && y < engine.TileMap.Height)
+                    if (x <= engine.TileMap.Width && y <= engine.TileMap.Height)
                     {
                         bool available = engine.ChooseTile(x, y);
                         if (available)
@@ -151,10 +153,10 @@ internal class Program
             _progress = 0;
             Update();
         }
-        void Win()
+        void Win(string winName)
         {
             Console.Clear();
-            Console.WriteLine("Game Over");
+            Console.WriteLine($"{winName} won the game Game Over");
         }
     }
 }
