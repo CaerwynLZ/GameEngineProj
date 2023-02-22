@@ -98,6 +98,10 @@ namespace FinalProject.Client
             else
                 return false;
         }
+        public bool CheckMate()
+        {
+            return false;
+        }
         private bool ActorCheck(Actor player)
         {
             for (int i = 0; i < player.TileObjects.Count; i++)

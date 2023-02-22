@@ -69,6 +69,15 @@ internal class Program
             Battle();
         }
 
+        bool WinCondition()
+        {
+            if (engine.Check())
+            {
+                Console.WriteLine("Check");
+            }
+            else
+                engine.TileMap.NextMoves.Clear();
+        }
         void Battle()
         {
 
