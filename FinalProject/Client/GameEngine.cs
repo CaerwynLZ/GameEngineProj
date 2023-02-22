@@ -13,8 +13,8 @@ namespace FinalProject.Client
     {
         Tile _tile;
         Actor _enemy;
-        Renderer _renderer;
-        List<TileObject> _objectsCheck;
+        readonly Renderer _renderer;
+        readonly List<TileObject> _objectsCheck;
         public Actor actor;
 
         public GameEngine()

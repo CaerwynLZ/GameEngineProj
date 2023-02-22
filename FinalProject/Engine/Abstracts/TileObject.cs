@@ -21,7 +21,6 @@ namespace FinalProject.Engine.Abstracts
         public Action Move { get; set; }
         public virtual List<List<Position>> MoveSets { get; set; } 
         public virtual List<Position> CheckablePosition { get; set; }
-
         /// <summary>
         /// Adds positions for ListPosition depending on what each piece can do/move to
         /// </summary>
