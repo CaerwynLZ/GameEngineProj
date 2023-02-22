@@ -99,12 +99,17 @@ internal class Program
                 case 0:
                     x = engine.GetConsoleInput<int>("Choose Tile X");
                     y = engine.GetConsoleInput<int>("Choose Tile Y");
-                    bool available = engine.ChooseTile(x, y);
-                    if (available)
-                        _progress++;
+                    if (x < engine.TileMap.Width && y < engine.TileMap.Height)
+                    {
+                        bool available = engine.ChooseTile(x, y);
+                        if (available)
+                            _progress++;
+                        else
+                            _progress = 0;
+                        Update();
+                    }
                     else
-                        _progress = 0;
-                    Update();
+                        Reset();
                     break;
                 case 1:
                     engine.AddPropertyOptions("1.", "To deselect");
@@ -115,23 +120,24 @@ internal class Program
                     {
                         case "1":
                             engine.DeselectTile();
-                            _progress = 0;
-                            Update();
+                            Reset();
                             break;
                         case "2":
                             x = engine.GetConsoleInput<int>("Choose Where To Move X");
                             y = engine.GetConsoleInput<int>("Choose Where To Move Y");
                             engine.MoveTo(x, y);
-                            _progress = 0;
                             PassTurn();
-                            Update();
+                            Reset();
+                            break;
+                        default:
+                            engine.DeselectTile();
+                            Reset();
                             break;
                     }
             
                     break;
-                    default:
-                    _progress=0;
-                    Update();
+                default:
+                    Reset();
                     break;
             }
         }
@@ -140,7 +146,11 @@ internal class Program
         {
             engine.SetTurn();
         }
-
+        void Reset()
+        {
+            _progress = 0;
+            Update();
+        }
         void Win()
         {
             Console.Clear();
