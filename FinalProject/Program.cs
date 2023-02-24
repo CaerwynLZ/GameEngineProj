@@ -127,9 +127,17 @@ internal class Program
                         case "2":
                             x = engine.GetConsoleInput<int>("Choose Where To Move X");
                             y = engine.GetConsoleInput<int>("Choose Where To Move Y");
-                            engine.MoveTo(x, y);
-                            PassTurn();
-                            Reset();
+                            if (x <= engine.TileMap.Width && y <= engine.TileMap.Height)
+                            {
+                                engine.MoveTo(x, y);
+                                PassTurn();
+                                Reset();
+                            }
+                            else
+                            {
+                                engine.DeselectTile();
+                                Reset();
+                            }
                             break;
                         default:
                             engine.DeselectTile();
