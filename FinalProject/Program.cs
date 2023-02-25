@@ -13,7 +13,7 @@ internal class Program
         Actor p1= new("Sam",ConsoleColor.Red);
         Actor p2 = new("Layan", ConsoleColor.Cyan);
         GameEngine engine = new();
-        int x, y;
+        int x=0, y=0;
         int _progress;
         string _win;
         Awake();
@@ -96,11 +96,8 @@ internal class Program
             switch (_progress)
             {
                 case 0:
-                    engine.AddPropertyOptions("1", "Enter X Position");
-                    engine.AddPropertyOptions("2", "Enter Y Position");
-                    x = engine.GetConsoleInput<int>("Choose Tile X");
-                    y = engine.GetConsoleInput<int>("Choose Tile Y");
-                    if (x <= engine.TileMap.Width && y <= engine.TileMap.Height)
+                    Console.WriteLine("Enter X,Y Position");
+                    if (CheckInput())
                     {
                         bool available = engine.ChooseTile(x, y);
                         if (available)
@@ -124,9 +121,8 @@ internal class Program
                             Reset();
                             break;
                         case "2":
-                            x = engine.GetConsoleInput<int>("Choose Where To Move X");
-                            y = engine.GetConsoleInput<int>("Choose Where To Move Y");
-                            if (x <= engine.TileMap.Width && y <= engine.TileMap.Height)
+                            Console.WriteLine("Enter X,Y Position");
+                            if (CheckInput())
                             {
                                 engine.MoveTo(x, y);
                                 PassTurn();
@@ -163,6 +159,23 @@ internal class Program
         {
             Console.Clear();
             Console.WriteLine($"{winName} won the game Game Over");
+        }
+        bool CheckInput()
+        {
+            string _xCopy = Console.ReadLine();
+            string _yCopy = Console.ReadLine();
+            if (_xCopy != " " && _yCopy != " ")
+            {
+                x = int.Parse(_xCopy);
+                y = int.Parse(_yCopy);
+                if (x <= engine.TileMap.Width && y <= engine.TileMap.Height)
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            return false;
         }
     }
 }

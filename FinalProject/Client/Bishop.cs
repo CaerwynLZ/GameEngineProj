@@ -28,7 +28,6 @@ namespace FinalProject.Client
 
             currentPos.TileObject = this;
         }
-
         public override void AddMoveSet(Position moveSet)
         {
             var absX=MathF.Abs(moveSet.X);

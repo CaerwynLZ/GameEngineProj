@@ -26,7 +26,6 @@ namespace FinalProject.Engine.Abstracts
         /// </summary>
         /// <param name="moveSet"></param>
         public virtual void AddMoveSet(Position moveSet) { }
-
         public virtual TileObject Clone()
         {
             var u = (TileObject)MemberwiseClone();
@@ -37,7 +36,6 @@ namespace FinalProject.Engine.Abstracts
             u.Owner = Owner;
             return u;
         }
-
         public virtual void SetTile(Tile tile)
         {
             DeleteTile();
@@ -45,12 +43,10 @@ namespace FinalProject.Engine.Abstracts
             this.Position = tile.Position;
             tile.TileObject = this;
         }
-
         public virtual void DeleteTile()
         {
             this.Tile.TileObject = null;
         }
-
         /// <summary>
         /// Gives tlemaps their possible movements and also sees if king is in check or not
         /// </summary>
@@ -65,40 +61,59 @@ namespace FinalProject.Engine.Abstracts
                 for (int j = 0; j < this.MoveSets[i].Count; j++)
                 {
                     Position pos = this.MoveSets[i][j] + this.Position;
-                    if (InBounds(pos,TileMap))
+                    if (InBounds(pos, TileMap))
                     {
-                        var enemyObj = TileMap[pos].TileObject;
-                        if (enemyObj == null)
+                        if (ObjectPosition(pos, TileMap))
                         {
-                            TileMap.NextMoves.Add(TileMap[pos]);
-                        }
-                        else
-                        {
-                            if (!enemyObj.Owner.Equals(this.Owner))
+                            var enemyObj = TileMap[pos].TileObject;
+                            if (IsChecking(enemyObj, TileMap))
                             {
-                                if (enemyObj.Name == "King")
-                                {
-                                    TileMap.NextMoves.Add(TileMap[pos]);
-                                    CheckPositions(this.MoveSets[i], TileMap);
-                                    return enemyObj;
-                                }
-                                else
-                                {
-                                    TileMap.NextMoves.Add(TileMap[pos]);
-                                    break;
-                                }
+                                CheckPositions(this.MoveSets[i], TileMap);
+                                return enemyObj;
                             }
                             else
-                            {
                                 break;
-                            }
                         }
                     }
+                    else
+                        break;
                 }
             }
             return null;
         }
-
+        protected virtual bool ObjectPosition(Position pos, TileMap TileMap)
+        {
+            var enemyObj = TileMap[pos].TileObject;
+            if (enemyObj == null)
+            {
+                TileMap.NextMoves.Add(TileMap[pos]);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        protected virtual bool IsChecking(TileObject enemyObj, TileMap TileMap)
+        {
+            if (!enemyObj.Owner.Equals(this.Owner))
+            {
+                if (enemyObj.Name == "King")
+                {
+                    TileMap.NextMoves.Add(TileMap[enemyObj.Position]);
+                    return true;
+                }
+                else
+                {
+                    TileMap.NextMoves.Add(TileMap[enemyObj.Position]);
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void CheckPositions(List<Position> list, TileMap tileMap)
         {
             for(int i=0; i<list.Count; i++) 
@@ -110,7 +125,6 @@ namespace FinalProject.Engine.Abstracts
                 }
             }
         }
-
         /// <summary>
         /// is the position you can go to is in the map 
         /// </summary>

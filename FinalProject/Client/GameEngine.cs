@@ -40,7 +40,6 @@ namespace FinalProject.Client
         {
             _renderer.RenderTileMap(TileMap);
         }
-
         /// <summary>
         /// adding number and sentence we want to show, that will be printed through RenderGameEngineOptions
         /// </summary>
@@ -100,10 +99,10 @@ namespace FinalProject.Client
             for(int i = 0; i < _playerInCheck.TileObjects.Count; i++)
             {
                 TileObject tileObject = _playerInCheck.TileObjects[i];
-                if(tileObject.Name=="King")
-                {
-                    continue;
-                }
+                //if(tileObject.Name=="King")
+                //{
+                //    continue;
+                //}
                 if(MoveableOptions(tileObject))
                 {
                     return false;
@@ -166,12 +165,31 @@ namespace FinalProject.Client
                 } 
                 if (blockCheckPos.Count > 0)
                 {
-                    TileMap.NextMoves= blockCheckPos;
-                    return true;
+                    if (tileObject.Name == "King")
+                    {
+                        KingMoves(blockCheckPos);
+                        return true;
+                    }
+                    else
+                    {
+                        TileMap.NextMoves = blockCheckPos;
+                        return true;
+                    }
                 }
                 else
                 {
-                    DeselectTile();
+                    if (tileObject.Name == "King")
+                    {
+                        KingMoves(blockCheckPos);
+                        if (TileMap.NextMoves.Count > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        DeselectTile();
+                    }
                     return false;
                 }
             }
@@ -180,6 +198,18 @@ namespace FinalProject.Client
                 return true;
             }
 
+        }
+        private void KingMoves(List<Tile> checkMoves)
+        {
+            for (int i = 0; i < TileMap.NextMoves.Count; i++)
+            {
+                Tile tile= TileMap.NextMoves[i];
+                if (checkMoves.Contains(tile) && tile.TileObject==null)
+                {
+                    TileMap.NextMoves.Remove(tile);
+                }
+            }
+            
         }
         /// <summary>
         /// implementing a way to check if a piece can go to where a piece is checking a king
@@ -231,23 +261,6 @@ namespace FinalProject.Client
         public void AddMenuOptions(string optionNumber, string describe)
         {
             Options.Add(optionNumber, describe);
-        }
-
-        public dynamic GetConsoleInput<T>(string command)
-        {
-            Console.WriteLine(command);
-            if (typeof(T) == typeof(int))
-            {
-                return int.Parse(Console.ReadLine());
-            }
-            else if (typeof(T) == typeof(string))
-            {
-                return Console.ReadLine();
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }

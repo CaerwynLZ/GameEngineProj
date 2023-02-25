@@ -41,7 +41,7 @@ namespace FinalProject.Client
                     Position pos = MoveSets[i][j];
                     if(pos.X==0 && pos.Y!=0)
                     {
-                        if((pos.Y==-2 || pos.Y==2) && !_startPos.Equals(Position))
+                        if(!FirstMove(pos))
                         {
                             break;
                         }
@@ -78,7 +78,15 @@ namespace FinalProject.Client
             }
             return null;
         }
-
+        private bool FirstMove(Position pos)
+        {
+            if ((pos.Y == -2 || pos.Y == 2) && !_startPos.Equals(Position))
+            {
+                return false;
+            }
+            else
+                return true;
+        }
         private void DealDirrection()
         {
             if(this.Owner.ID==1)
@@ -88,7 +96,6 @@ namespace FinalProject.Client
             else
                 _dirrection=-1;
         }
-
         public override void AddMoveSet(Position moveSet)
         {
             List<Position> positions= new List<Position>();
@@ -97,6 +104,5 @@ namespace FinalProject.Client
             MoveSets.Add(positions);
 
         }
-
     }
 }
