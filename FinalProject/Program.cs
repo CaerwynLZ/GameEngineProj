@@ -63,7 +63,6 @@ internal class Program
             PassTurn();
             Update();
         }
-
         void Update()
         {
             engine.RenderMap();
@@ -74,13 +73,12 @@ internal class Program
             else
                 Battle();
         }
-
         bool WinCondition()
         {
             _win = engine.Check();
             if (_win!="")
             {
-                if (engine.CheckMate() == true)
+                if (engine.GameOver() == true)
                 {
                     return true;
                 }
@@ -92,13 +90,14 @@ internal class Program
             }
             return false;
         }
-
         void Battle()
         {
             Console.WriteLine($"It's {engine.actor.Name}'s turn");
             switch (_progress)
             {
                 case 0:
+                    engine.AddPropertyOptions("1", "Enter X Position");
+                    engine.AddPropertyOptions("2", "Enter Y Position");
                     x = engine.GetConsoleInput<int>("Choose Tile X");
                     y = engine.GetConsoleInput<int>("Choose Tile Y");
                     if (x <= engine.TileMap.Width && y <= engine.TileMap.Height)
@@ -151,7 +150,6 @@ internal class Program
                     break;
             }
         }
-
         void PassTurn()
         {
             engine.SetTurn();

@@ -23,23 +23,7 @@ namespace FinalProject.Client
             _renderer = new Renderer();
             _objectsCheck = new List<TileObject>();
         }
-
-        public void CreateBoard(int tileWidth, int tileHeight)
-        {
-            TileMap = new TileMap(tileWidth, tileHeight);
-        }
-
-        public void SetPlayers(Actor player1, Actor player2)
-        {
-            Actor1 = player1;
-            Actor1.ID = 1;
-
-            Actor2 = player2;
-            Actor2.ID = 2;
-
-        }
-
-        public void SetTurn()
+        public override void SetTurn()
         {
             if (actor == Actor2)
             {
@@ -52,22 +36,7 @@ namespace FinalProject.Client
                 _enemy = Actor1;
             }
         }
-
-        /// <summary>
-        /// Adding objects to whatever player you want, so each one has their own sets
-        /// </summary>
-        /// <param name="tileObject"></param>
-        public void SetUnit(TileObject tileObject)
-        {
-            if (tileObject.Owner == Actor1)
-            {
-                Actor1.TileObjects.Add(tileObject);
-            }
-            else if (tileObject.Owner == Actor2)
-                Actor2.TileObjects.Add(tileObject);
-        }
-
-        public void RenderMap()
+        public override void RenderMap()
         {
             _renderer.RenderTileMap(TileMap);
         }
@@ -81,13 +50,15 @@ namespace FinalProject.Client
         {
             PropertyOptions.Add(optionNumber, describe);
         }
-
-        public void PrintOptions()
+        public void ResetPropertyOptions()
+        {
+            PropertyOptions.Clear();
+        }
+        public  void PrintOptions()
         {
             _renderer.RenderOptions(PropertyOptions);
         }
-
-        public bool ChooseTile(int x, int y)
+        public override bool ChooseTile(int x, int y)
         {
             TileMap.NextMoves.Clear();
             _tile = TileMap.SelectTile(x, y);
@@ -108,7 +79,6 @@ namespace FinalProject.Client
                 return false;
             }
         }
-        
         public string Check()
         {
             _objectsCheck.Clear();
@@ -125,8 +95,7 @@ namespace FinalProject.Client
             else
                 return "";
         }
-
-        public bool CheckMate()
+        public override bool GameOver()
         {
             for(int i = 0; i < _playerInCheck.TileObjects.Count; i++)
             {
@@ -143,7 +112,6 @@ namespace FinalProject.Client
             }
             return true;
         }
-
         /// <summary>
         /// Sees which player is Checking the king
         /// </summary>
@@ -168,13 +136,11 @@ namespace FinalProject.Client
             else
                 return false;
         }
-
-        public void DeselectTile()
+        public override void DeselectTile()
         {
             TileMap.SelectedTile = null;
-            PropertyOptions.Clear();
+            ResetPropertyOptions();
         }
-
         /// <summary>
         /// looks for how many objects are doing Check on king then checks if an object that you selected 
         /// is able to move in the position of the object's path that's checking the king
@@ -215,7 +181,6 @@ namespace FinalProject.Client
             }
 
         }
-
         /// <summary>
         /// implementing a way to check if a piece can go to where a piece is checking a king
         /// </summary>
@@ -234,13 +199,12 @@ namespace FinalProject.Client
             }
             return false;
         }
-
         /// <summary>
         /// Checks if object can go to the chosen place, and if its a piece they can eat, otherwise Deselect
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public void MoveTo(int x, int y)
+        public override void MoveTo(int x, int y)
         {
             TileMap.NextMoves.Clear();
             _tile.TileObject.GiveMoves(TileMap);
@@ -259,13 +223,11 @@ namespace FinalProject.Client
                 DeselectTile();
             }
         }
-        
-        private void EatObject(Tile eaten, Actor actor)
+        protected override void EatObject(Tile eaten, Actor actor)
         {
             actor.TileObjects.Remove(eaten.TileObject);
             eaten.TileObject = null;
         }
-
         public void AddMenuOptions(string optionNumber, string describe)
         {
             Options.Add(optionNumber, describe);

@@ -78,62 +78,6 @@ namespace FinalProject.Client
             }
             return null;
         }
-        //public override bool GiveMoves(TileMap TileMap)
-        //{
-        //    KingHold = false;
-        //    tilemap= TileMap;
-        //    if (startPos.Equals(Position))
-        //    {
-        //        ObjectState = State.Start;
-        //    }
-        //    else
-        //        ObjectState = State.Normal;
-
-        //    switch (ObjectState)
-        //    {
-        //        case State.Start:
-        //            AddMoveSet(new Position(0, 1));
-        //            AddMoveSet(new Position(0, 2));
-        //            break;
-        //        case State.Normal:
-        //            GiveBehaveMove.Clear();
-        //            AddMoveSet(new Position(0, 1));
-        //            break;
-        //        default:
-        //            break;
-        //    }
-
-        //    var right = new Position(1, 1*dirrection) + this.Position;
-        //    EnemyDetection(right);
-        //    var left= new Position(-1, 1*dirrection) + this.Position;
-        //    EnemyDetection(left);
-
-        //    for(int i = 0; i < GiveBehaveMove.Count; i++)
-        //    {
-        //        var position= GiveBehaveMove[i]+Position;
-        //        if (InBounds(position, TileMap))
-        //        {
-        //            TileMap.NextMoves.Add(TileMap[position]);
-        //        }
-        //    }
-        //    return KingHold;
-
-        //}
-        //private void EnemyDetection(Position pos)
-        //{
-        //    if (tilemap[pos].TileObject!=null)
-        //    {
-        //        var enemy= tilemap[pos].TileObject;
-        //        if(!enemy.Owner.Equals(this.Owner))
-        //        {
-        //            if (enemy.Name == "King")
-        //            {
-        //                KingHold = true;
-        //            }
-        //            tilemap.NextMoves.Add(tilemap[pos]);
-        //        }
-        //    }
-        //}
 
         private void DealDirrection()
         {

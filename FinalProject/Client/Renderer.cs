@@ -24,7 +24,6 @@ namespace FinalProject.Client
             Console.BackgroundColor = ConsoleColor.Black;
             Console.Clear();
         }
-
         public void RenderOptions(Dictionary<string, string> options)
         {
             if (options != null)
@@ -32,7 +31,6 @@ namespace FinalProject.Client
                 RenderGameEngineOptions(options);
             }
         }
-
         /// <summary>
         /// automatically adds number to any future option given
         /// </summary>
